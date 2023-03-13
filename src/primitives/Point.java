@@ -50,17 +50,16 @@ public class Point {
 	 * @return
 	 */
 	public Point add(Vector rhs) {
-		//TODO
-		return xyz.add(rhs);
+		return new Point(xyz.add(rhs.xyz));
 	}
 
 	/**
 	 * move a point by the opposite of a vector 
-	 * @param rhs the diraction we subtruct
+	 * @param rhs the diraction we subtract
 	 * @return
 	 */
-	public Double3 subtract(Vector rhs) {
-		return xyz.subtract(rhs);
+	public Point subtract(Vector rhs) {
+		return new Point(xyz.subtract(rhs.xyz));
 	}
 
 	/**
