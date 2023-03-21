@@ -54,12 +54,12 @@ public class Point {
 	}
 
 	/**
-	 * move a point by the opposite of a vector 
-	 * @param rhs the diraction we subtract
-	 * @return
+	 * create vector from the other point to our point
+	 * @param rhs the other point
+	 * @return the vector
 	 */
-	public Point subtract(Vector rhs) {
-		return new Point(xyz.subtract(rhs.xyz));
+	public Vector subtract(Point rhs) {
+		return new Vector(xyz.subtract(rhs.xyz));
 	}
 
 	/**

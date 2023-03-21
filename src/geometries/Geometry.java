@@ -11,5 +11,5 @@ public interface Geometry {
 	/**
 	 * @return the normal vector the the geometry
 	 */
-	public Vector getNormal();
+	public Vector getNormal(Point point);
 }

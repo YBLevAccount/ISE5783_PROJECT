@@ -1,7 +1,5 @@
 package geometries;
 
-import primitives.*;
-
 /** this abstract class represents geometry with radius
  * @author יונתן
  *
@@ -19,5 +17,12 @@ public abstract class RadialGeometry implements Geometry {
 	 */
 	public RadialGeometry(double radius) {
 		this.radius = radius;
+	}
+	
+	/**
+	 * @return the radius
+	 */
+	public double getRadius() {
+		return radius;
 	}
 }

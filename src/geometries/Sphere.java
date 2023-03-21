@@ -8,27 +8,26 @@ import primitives.*;
  */
 public class Sphere extends RadialGeometry {
 
-	private Point p0;
+	private Point center;
 	
 	/** create a sphere using center point and radius
-	 * @param p0 the center point
+	 * @param center
 	 * @param radius
 	 */
-	public Sphere(Point p0,double radius) {
+	public Sphere(Point center,double radius) {
 		super(radius);
-		this.p0 = p0;
-	}
-
-	@Override
-	public Vector getNormal() {
-		return null;
+		this.center = center;
 	}
 
 	/**
 	 * @return the center point
 	 */
-	public Point getP0() {
-		return p0;
+	public Point getCenter() {
+		return center;
 	}
 
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
 }

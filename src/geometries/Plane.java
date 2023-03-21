@@ -33,7 +33,9 @@ public class Plane implements Geometry {
 		this.normal = normal.normalize();
 	}
 
-	@Override
+	/**
+	 * @return the normal
+	 */
 	public Vector getNormal() {
 		return normal;
 	}
@@ -44,5 +46,9 @@ public class Plane implements Geometry {
 	public Point getP0() {
 		return p0;
 	}
-
+	
+	@Override
+	public Vector getNormal(Point point){
+		return null;
+	}
 }

@@ -1,27 +1,37 @@
-
- * 
- */
 package geometries;
 
-import primitives.Vector;
+import primitives.*;
 
-/**
+/** represents a tube in 3D world using ray and radius that goes around the ray
  * @author יונתן
  *
  */
 public class Tube extends RadialGeometry {
 
 	/**
-	 * @param radius
+	 * each point on the ray is the center of a circle with the given radius
+	 * together they make the tube
 	 */
-	public Tube(double radius) {
+	protected Ray axisRay;
+	
+	/** the constructor
+	 * @param axisRay the center ray
+	 * @param radius the radius of each circle
+	 */
+	public Tube(Ray axisRay, double radius) {
 		super(radius);
-		// TODO Auto-generated constructor stub
+		this.axisRay = axisRay;
+	}
+	
+	/**
+	 * @return the axisRay
+	 */
+	public Ray getAxisRay() {
+		return axisRay;
 	}
 
 	@Override
-	public Vector getNormal() {
-		// TODO Auto-generated method stub
+	public Vector getNormal(Point point) {
 		return null;
 	}
 

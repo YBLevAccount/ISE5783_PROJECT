@@ -8,8 +8,8 @@ package primitives;
  */
 public class Ray {
 	
-	private Point p0;
-	private Vector dir;
+	private final Point p0;
+	private final Vector dir;
 	
 	/**
 	 * create a ray that starts at p0 and goes toward dir
