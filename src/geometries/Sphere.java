@@ -3,7 +3,7 @@ package geometries;
 import primitives.*;
 
 /** this class represents a sphere
- * @author יונתן
+ * @author Yonatan
  *
  */
 public class Sphere extends RadialGeometry {
@@ -20,7 +20,8 @@ public class Sphere extends RadialGeometry {
 	}
 
 	/**
-	 * @return the center point
+	 * getter for the center point
+	 * @return the point
 	 */
 	public Point getCenter() {
 		return center;

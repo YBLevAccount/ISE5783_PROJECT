@@ -4,12 +4,14 @@ import primitives.*;
 
 /**
  * public interface for geometries with normal
- * @author יונתן
+ * @author Yonatan
  *
  */
 public interface Geometry {
 	/**
-	 * @return the normal vector the the geometry
+	 * calculate normal vector the the geometry at given point
+	 * @param point on the geometry
+	 * @return the normal
 	 */
 	public Vector getNormal(Point point);
 }

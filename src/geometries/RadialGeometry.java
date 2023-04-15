@@ -1,7 +1,8 @@
 package geometries;
 
-/** this abstract class represents geometry with radius
- * @author יונתן
+/**
+ * this abstract class represents geometry with radius
+ * @author Yonatan
  *
  */
 public abstract class RadialGeometry implements Geometry {
@@ -9,10 +10,10 @@ public abstract class RadialGeometry implements Geometry {
 	/**
 	 * the radius of the geometry
 	 */
-	protected double radius;
+	protected final double radius;
 	
 	/**
-	 * the constructor
+	 * construct geometry with radius
 	 * @param radius of the geometry
 	 */
 	public RadialGeometry(double radius) {
@@ -20,6 +21,7 @@ public abstract class RadialGeometry implements Geometry {
 	}
 	
 	/**
+	 * getter for the radius
 	 * @return the radius
 	 */
 	public double getRadius() {

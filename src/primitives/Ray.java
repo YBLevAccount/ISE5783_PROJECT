@@ -2,8 +2,7 @@ package primitives;
 
 /**
  * This class represents a ray using starting point and direction vector
- * 
- * @author יונתן
+ * @author Yonatan
  *
  */
 public class Ray {
@@ -22,14 +21,16 @@ public class Ray {
 	}
 
 	/**
-	 * @return the starting point
+	 * getter for the starting point
+	 * @return the point
 	 */
 	public Point getP0() {
 		return p0;
 	}
 
 	/**
-	 * @return the direction vector
+	 * getter for the direction vector
+	 * @return the vector
 	 */
 	public Vector getDir() {
 		return dir;
@@ -43,11 +44,4 @@ public class Ray {
 			return this.p0.equals(other.p0) && this.dir.equals(other.dir);
 		return false;
 	}
-
-	@Override
-	public String toString() {
-		return p0.toString() + " " + dir.toString();
-	}
-	
-	
 }

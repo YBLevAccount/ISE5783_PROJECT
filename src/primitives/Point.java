@@ -1,9 +1,8 @@
 package primitives;
 
 /**
- * This class represents a point in a 3 dimensional world
- * 
- * @author יונתן
+ * This class represents a point in a 3D world
+ * @author Yonatan
  *
  */
 public class Point {
@@ -14,9 +13,9 @@ public class Point {
 	
 	/**
 	 * create point using coordinates
-	 * @param x x axis
-	 * @param y y axis
-	 * @param z z axis
+	 * @param x axis
+	 * @param y axis
+	 * @param z axis
 	 */
 	public Point(double x, double y, double z) {
 		xyz = new Double3(x, y, z);
@@ -45,9 +44,9 @@ public class Point {
 	}
 
 	/**
-	 * move a point by vector
-	 * @param rhs the diraction we add
-	 * @return
+	 * create new point by moving this point by vector
+	 * @param rhs the vector we add
+	 * @return the moved point
 	 */
 	public Point add(Vector rhs) {
 		return new Point(xyz.add(rhs.xyz));
@@ -63,22 +62,21 @@ public class Point {
 	}
 
 	/**
-	 * calculate distance from the other point:
-	 * sqrt((x1-x2)^2+(y1-y2)^2+(z1-z2)^2)
+	 * calculate distance from the other point
 	 * @param other second point
-	 * @return
+	 * @return the distance
 	 */
 	public double distance(Point other){
 		return Math.sqrt(distanceSquared(other));
 	}
 	
 	/**
-	 * calculate distance times itself from the other point:
-	 * (x1-x2)^2+(y1-y2)^2+(z1-z2)^2
+	 * calculate distance times itself from the other point
 	 * @param other second point
-	 * @return
+	 * @return the distance squared
 	 */
 	public double distanceSquared(Point other) {
+		// using Euclidean distance formula
 		return (this.xyz.d1 - other.xyz.d1)* (this.xyz.d1 - other.xyz.d1)
 		+ (this.xyz.d2 - other.xyz.d2) * (this.xyz.d2 - other.xyz.d2)
 		+ (this.xyz.d3 - other.xyz.d3) * (this.xyz.d3 - other.xyz.d3);

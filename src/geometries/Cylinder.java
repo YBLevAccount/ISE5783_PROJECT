@@ -2,15 +2,17 @@ package geometries;
 
 import primitives.*;
 
-/**
- * @author יונתן
+/** 
+ * Cylinder is Tube with finite height
+ * @author Yonatan
  *
  */
 public class Cylinder extends Tube {
 
-	private double height;
+	private final double height;
 	
-	/**
+	/** construct Cylinder using height, axis ray and radius
+	 * @param height
 	 * @param axisRay
 	 * @param radius
 	 */
@@ -20,6 +22,7 @@ public class Cylinder extends Tube {
 	}
 	
 	/**
+	 * getter for height
 	 * @return the height
 	 */
 	public double getHeight() {

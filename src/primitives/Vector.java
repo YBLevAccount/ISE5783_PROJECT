@@ -1,15 +1,17 @@
 package primitives;
 
-/** the class represents a vector in a 3D world
- * @author יונתן
+/** 
+ * the class represents a vector in a 3D world
+ * @author Yonatan
  *
  */
 public class Vector extends Point {
 
 	/** create vector using coordinates
-	 * @param x x axis
-	 * @param y y axis
-	 * @param z z axis
+	 * @param x axis
+	 * @param y axis
+	 * @param z axis
+	 * @throws IllegalArgumentException if the vector is zero vector
 	 */
 	public Vector(double x, double y, double z) {
 		super(x, y, z);
@@ -19,6 +21,7 @@ public class Vector extends Point {
 
 	/** create vector using Double3
 	 * @param xyz the instance
+	 * @throws IllegalArgumentException if the vector is zero vector
 	 */
 	Vector(Double3 xyz) {
 		super(xyz);
@@ -41,8 +44,9 @@ public class Vector extends Point {
 	}
 	
 	/**
-	 * add 2 vectors using linear algebra
-	 * @param rhs the second vector
+	 * add 2 vectors
+	 * @param rhs second vector
+	 * @return the result vector
 	 */
 	public Vector add(Vector rhs) {
 		return new Vector(xyz.add(rhs.xyz));
@@ -51,20 +55,19 @@ public class Vector extends Point {
 	/**
 	 * scale every coordinate by the value
 	 * @param value
-	 * @return
+	 * @return the scaled vector
 	 */
 	public Vector scale(double value) {
 		return new Vector(xyz.scale(value));
 	}
 	
 	/**
-	 * return the cross product between 2 vectors:
-	 * (y1 * z2 - z1 * y2, z1 * x2 - z2 * x1, x1 * y2 - x2 * y1)
-	 * @param rhs
+	 * return the cross product between 2 vectors
+	 * @param rhs second vector
 	 * @return orthogonal vector
 	 */
 	public Vector crossProduct(Vector rhs) {
-		
+		// using cross product formula
 		return new Vector(xyz.d2 * rhs.xyz.d3 - xyz.d3 * rhs.xyz.d2, 
 				xyz.d3 * rhs.xyz.d1 - xyz.d1 * rhs.xyz.d3, 
 				xyz.d1 * rhs.xyz.d2 - xyz.d2 * rhs.xyz.d1);
@@ -72,16 +75,17 @@ public class Vector extends Point {
 	
 	/**
 	 * return the dot product between 2 vectors
-	 * (x1 * x2 + y1 * y2 + z1 * z1)
 	 * @param rhs second vector
 	 * @return a scalar
 	 */
 	public double dotProduct(Vector rhs) {
+		// using dot product formula
 		return xyz.d1 * rhs.xyz.d1 + xyz.d2 * rhs.xyz.d2 + xyz.d3 * rhs.xyz.d3;
 	}
 	
 	/**
 	 * calculate the vector length times itself
+	 * @return the length squared
 	 */
 	public double lengthSquared() {
 		return dotProduct(this);
@@ -89,13 +93,15 @@ public class Vector extends Point {
 	
 	/**
 	 * calculate the vector length
+	 * @return the length
 	 */
 	public double length() {
 		return Math.sqrt(lengthSquared());
 	}
 
 	/**
-	 * @return vector with the same direction but with length 1
+	 * calculate vector with the same direction but with length 1
+	 * @return the normalized vector 
 	 */
 	public Vector normalize() {
 		return scale(1 / length());

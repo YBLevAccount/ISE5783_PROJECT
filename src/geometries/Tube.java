@@ -2,8 +2,9 @@ package geometries;
 
 import primitives.*;
 
-/** represents a tube in 3D world using ray and radius that goes around the ray
- * @author יונתן
+/** 
+ * represents a tube in 3D world using ray and radius that goes around the ray
+ * @author Yonatan
  *
  */
 public class Tube extends RadialGeometry {
@@ -12,11 +13,11 @@ public class Tube extends RadialGeometry {
 	 * each point on the ray is the center of a circle with the given radius
 	 * together they make the tube
 	 */
-	protected Ray axisRay;
+	protected final Ray axisRay;
 	
-	/** the constructor
-	 * @param axisRay the center ray
-	 * @param radius the radius of each circle
+	/** construct Tube using axis ray and radius
+	 * @param axisRay
+	 * @param radius
 	 */
 	public Tube(Ray axisRay, double radius) {
 		super(radius);
@@ -24,7 +25,8 @@ public class Tube extends RadialGeometry {
 	}
 	
 	/**
-	 * @return the axisRay
+	 * getter for the axis ray
+	 * @return the axis ray
 	 */
 	public Ray getAxisRay() {
 		return axisRay;
