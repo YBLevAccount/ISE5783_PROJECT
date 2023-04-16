@@ -19,7 +19,7 @@ class PointTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that function is properly working
 		Point p = new Point(-1, 1, 0);
-		p.add(new Vector(2, 0, 1));
+		p = p.add(new Vector(2, 0, 1));
 		assertEquals(new Point(1, 1, 1), p);
 	}
 
@@ -68,7 +68,7 @@ class PointTests {
 		// TC01: tests that function is properly working and returning the distance
 		// squared between two points
 		Point p = new Point(1, 5, 8);
-		double d = p.distance(new Point(-2, 4, 10));
+		double d = p.distanceSquared(new Point(-2, 4, 10));
 		assertTrue(Util.isZero(d - 14));
 	}
 	

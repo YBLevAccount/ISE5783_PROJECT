@@ -12,7 +12,7 @@ class TriangleTests {
 	 */
 	@Test
 	void testGetNormal() {
-		fail("Not yet implemented");
+		//there is no need to test this function as it has already been tested in Polygon
 	}
 
 }

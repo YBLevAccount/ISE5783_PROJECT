@@ -1,9 +1,12 @@
 package geometries;
 
+import java.io.Console;
+
 import primitives.*;
 
-/** 
+/**
  * represents a tube in 3D world using ray and radius that goes around the ray
+ * 
  * @author Yonatan
  *
  */
@@ -14,8 +17,10 @@ public class Tube extends RadialGeometry {
 	 * together they make the tube
 	 */
 	protected final Ray axisRay;
-	
-	/** construct Tube using axis ray and radius
+
+	/**
+	 * construct Tube using axis ray and radius
+	 * 
 	 * @param axisRay
 	 * @param radius
 	 */
@@ -23,9 +28,10 @@ public class Tube extends RadialGeometry {
 		super(radius);
 		this.axisRay = axisRay;
 	}
-	
+
 	/**
 	 * getter for the axis ray
+	 * 
 	 * @return the axis ray
 	 */
 	public Ray getAxisRay() {
@@ -34,7 +40,12 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point point) {
-		return null;
+		double t = axisRay.getDir().dotProduct(point.subtract(axisRay.getP0()));
+		Point O = axisRay.getP0();
+		if (!Util.isZero(t)) {
+			O = O.add(axisRay.getDir().scale(t));
+		}
+		return (point.subtract(O)).normalize();
 	}
 
 }

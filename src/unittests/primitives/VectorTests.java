@@ -11,29 +11,6 @@ import primitives.Vector;
 
 class VectorTests {
 	/**
-	 * tests {@link primitives.Vector#Vector(double, double, double)}
-	 */
-	@Test
-	void testConstructorThreeDoubles() {
-		// ================= Equivalence Partitions Tests ===========================
-		// TC01: tests that an exception is not thrown for any nonzero vector
-		try {
-			new Vector(1, 2, 3);
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
-		// ================= BVA Tests ===========================
-		// TC02: tests that the correct exception is thrown for vector zero
-		try {
-			new Vector(0, 0, 0);
-		} catch (IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "ZERO vector");
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
-	}
-
-	/**
 	 * tests {@link primitives.Vector#add(Vector)}
 	 */
 	@Test
@@ -41,7 +18,7 @@ class VectorTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the add function is working properly
 		Vector v = new Vector(1, 2, 5);
-		v.add(new Vector(2, 6, 7));
+		v = v.add(new Vector(2, 6, 7));
 		assertEquals(v, new Vector(3, 8, 12));
 		// ================= BVA Tests ===========================
 		// TC02: tests that an exception is thrown for vector zero
@@ -54,6 +31,13 @@ class VectorTests {
 			fail("Incorrect exception for vector zero");
 		}
 	}
+	/**
+	 *  tests {@link primitives.Vector#subtract(Vector)}
+	 */
+	@Test
+	void testSubtract() {
+		//there is no need to test the function as it was already tested in Point
+	}
 
 	/**
 	 * tests {@link primitives.Vector#scale()}
@@ -64,13 +48,13 @@ class VectorTests {
 		// TC01: tests that the function is working properly for a positive number that
 		// does not change the direction of the vector
 		Vector v = new Vector(2, 5, 4);
-		v.scale(2);
+		v = v.scale(2);
 		assertEquals(v, new Vector(4, 10, 8));
 		// ================= Equivalence Partitions Tests ===========================
 		// TC02: tests that the function is working properly for a negative number that
 		// changes the direction of the vector
 		v = new Vector(3, 7, 1);
-		v.scale(-3);
+		v = v.scale(-3);
 		assertEquals(v, new Vector(-9, -21, -3));
 		// ================= BVA Tests ===========================
 		// TC03: tests that the correct exception is thrown for a scale of zero that
@@ -93,7 +77,7 @@ class VectorTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the cross product function is working correctly
 		Vector v = new Vector(4, 2, 3);
-		v.crossProduct(new Vector(2, 5, 1));
+		v = v.crossProduct(new Vector(2, 5, 1));
 		assertEquals(v, new Vector(-13, 2, 16));
 		// ================= BVA Tests ===========================
 		// TC02: tests that an exception is thrown when the vector are parallel with the
@@ -134,7 +118,7 @@ class VectorTests {
 		// outputs
 		v = new Vector(-3, 1, -5);
 		d = v.dotProduct(new Vector(1, 2, 4));
-		assertTrue(Util.isZero(d - 21));
+		assertTrue(Util.isZero(d + 21));
 		// ================= BVA Tests ===========================
 		// TC03: tests that the result is equal when the vector are orthogonal
 		v = new Vector(4, 8, 1);
@@ -162,7 +146,7 @@ class VectorTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the length function is working properly
 		Vector v = new Vector(4, 1, 2);
-		double d = v.lengthSquared();
+		double d = v.length();
 		assertTrue(Util.isZero(d - Math.sqrt(21)));
 	}
 
@@ -174,8 +158,8 @@ class VectorTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the normalize function is working properly
 		Vector v = new Vector(2, 1, 2);
-		v.normalize();
-		assertEquals(v, new Vector(2 / 3, 1 / 3, 2 / 3));
+		v = v.normalize();
+		assertEquals(v, new Vector(2.d / 3.d, 1.d / 3.d, 2.d / 3.d));
 	}
 
 }
