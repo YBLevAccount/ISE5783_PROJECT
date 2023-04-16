@@ -8,7 +8,7 @@ import primitives.*;
  */
 public class Sphere extends RadialGeometry {
 
-	private Point center;
+	private final Point center;
 	
 	/** create a sphere using center point and radius
 	 * @param center
