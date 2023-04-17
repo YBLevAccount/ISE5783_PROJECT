@@ -7,7 +7,7 @@ import primitives.*;
  * @author Yonatan
  *
  */
-public interface Geometry {
+public interface Geometry extends Intersectable{
 	/**
 	 * calculate normal vector the the geometry at given point
 	 * @param point on the geometry
