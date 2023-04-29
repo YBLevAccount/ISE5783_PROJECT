@@ -48,4 +48,20 @@ public class Ray {
 			return this.p0.equals(other.p0) && this.dir.equals(other.dir);
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return p0.toString() + dir;
+	}
+	
+	/**
+	 * find point on the ray using distance from starting point
+	 * @param t distance from starting point
+	 * @return the point
+	 */
+	public Point getPoint(double t) {
+		if (Util.isZero(t))
+			return p0;
+		return p0.add(dir.scale(t));
+	}
 }

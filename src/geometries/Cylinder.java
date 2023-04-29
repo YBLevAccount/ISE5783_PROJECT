@@ -15,9 +15,9 @@ public class Cylinder extends Tube {
 	/**
 	 * construct Cylinder using height, axis ray and radius
 	 * 
-	 * @param height
-	 * @param axisRay
-	 * @param radius
+	 * @param height the distance between the upper and lower parts
+ 	 * @param axisRay a ray that the cylinder will go around
+	 * @param radius for each circle that starts from each point on the ray
 	 */
 	public Cylinder(double height, Ray axisRay, double radius) {
 		super(axisRay, radius);
@@ -35,16 +35,16 @@ public class Cylinder extends Tube {
 
 	@Override
 	public Vector getNormal(Point point) {
-		Point pBottom = axisRay.getP0();
-		Point pTop = axisRay.getP0().add((axisRay.getDir()).normalize().scale(height));
-		if (point.equals(pBottom))
-			return (axisRay.getDir().scale(-1));
-		if (Util.isZero(point.subtract(pBottom).dotProduct(axisRay.getDir())))
-			return (axisRay.getDir().scale(-1));
-		if (point.equals(pTop))
-			return (axisRay.getDir());
-		if (Util.isZero(point.subtract(pTop).dotProduct(axisRay.getDir())))
-			return (axisRay.getDir());
+		double rSquared = radius * radius;
+		Point bottomCenter = axisRay.getP0();
+		// checks if the point is on the lowest circle using 
+		if (point.distanceSquared(bottomCenter) < rSquared)
+			return axisRay.getDir().scale(-1.d);
+		// checks if the point is on the highest circle
+		// to get the top center we add the direction vector with size height to the bottom 
+		if (point.distanceSquared(bottomCenter.add((axisRay.getDir()).scale(height))) < rSquared)
+			return axisRay.getDir();
+		// the last case is just the same as tube
 		return super.getNormal(point);
 	}
 }

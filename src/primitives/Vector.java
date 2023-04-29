@@ -76,7 +76,7 @@ public class Vector extends Point {
 	/**
 	 * return the dot product between 2 vectors
 	 * @param rhs second vector
-	 * @return a scalar
+	 * @return the scalar
 	 */
 	public double dotProduct(Vector rhs) {
 		// using dot product formula

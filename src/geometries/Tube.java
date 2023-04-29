@@ -1,11 +1,7 @@
 package geometries;
 
-<<<<<<< HEAD
-=======
-import java.io.Console;
 import java.util.List;
 
->>>>>>> refs/remotes/origin/master
 import primitives.*;
 
 /**
@@ -25,8 +21,8 @@ public class Tube extends RadialGeometry {
 	/**
 	 * construct Tube using axis ray and radius
 	 * 
-	 * @param axisRay
-	 * @param radius
+	 * @param axisRay a ray that the tube will go around
+	 * @param radius  for each circle that starts from each point on the ray
 	 */
 	public Tube(Ray axisRay, double radius) {
 		super(radius);
@@ -44,12 +40,12 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point point) {
+		/*
+		 * finds the distance between the center of the circle of the point and the
+		 * starting point of the ray, then get the point and create the normal
+		 */
 		double t = axisRay.getDir().dotProduct(point.subtract(axisRay.getP0()));
-		Point O = axisRay.getP0();
-		if (!Util.isZero(t)) {
-			O = O.add(axisRay.getDir().scale(t));
-		}
-		return (point.subtract(O)).normalize();
+		return point.subtract(axisRay.getPoint(t)).normalize();
 	}
 
 	@Override

@@ -84,8 +84,12 @@ public class Point {
 	 */
 	public double distanceSquared(Point other) {
 		// using Euclidean distance formula
-		return (this.xyz.d1 - other.xyz.d1) * (this.xyz.d1 - other.xyz.d1)
-				+ (this.xyz.d2 - other.xyz.d2) * (this.xyz.d2 - other.xyz.d2)
-				+ (this.xyz.d3 - other.xyz.d3) * (this.xyz.d3 - other.xyz.d3);
+		double result = this.xyz.d1 - other.xyz.d1;
+		result *= result;
+		double dif = this.xyz.d2 - other.xyz.d2;
+		result += dif * dif;
+		dif = this.xyz.d3 - other.xyz.d3;
+		result += dif * dif;
+		return result;
 	}
 }

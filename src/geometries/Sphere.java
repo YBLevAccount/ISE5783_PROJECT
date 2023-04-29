@@ -17,8 +17,8 @@ public class Sphere extends RadialGeometry {
 	/**
 	 * create a sphere using center point and radius
 	 * 
-	 * @param center
-	 * @param radius
+	 * @param center the center point of the sphere
+	 * @param radius of the sphere
 	 */
 	public Sphere(Point center, double radius) {
 		super(radius);
@@ -28,7 +28,7 @@ public class Sphere extends RadialGeometry {
 	/**
 	 * getter for the center point
 	 * 
-	 * @return the point
+	 * @return the center point
 	 */
 	public Point getCenter() {
 		return center;

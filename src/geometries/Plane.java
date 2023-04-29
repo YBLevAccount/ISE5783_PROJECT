@@ -18,23 +18,12 @@ public class Plane implements Geometry {
 	/**
 	 * create a plane using 3 points on the plane
 	 * 
-	 * @param p1
-	 * @param p2
-	 * @param p3 points on the plane
+	 * @param p1 1st point on the plane
+	 * @param p2 2nd point on the plane
+	 * @param p3 3rd point on the plane
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		this.p0 = p1;
-		if (p1.equals(p2))
-			throw new IllegalArgumentException("First and second points are equalS");
-		Vector v1 = p2.subtract(p1);
-		Vector v2 = p3.subtract(p2);
-
-		try {
-			v1.crossProduct(v2);
-		} catch (IllegalArgumentException e) {
-			if (e.getMessage().equals("ZERO vector"))
-				;
-		}
 		this.normal = (p2.subtract(p1).crossProduct(p3.subtract(p1))).normalize();
 	}
 
