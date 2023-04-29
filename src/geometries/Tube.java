@@ -1,7 +1,5 @@
 package geometries;
 
-import java.io.Console;
-
 import primitives.*;
 
 /**

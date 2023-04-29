@@ -39,8 +39,8 @@ public class Plane implements Geometry {
 	/**
 	 * create plane using point in the plane and normal to the plane
 	 * 
-	 * @param p0
-	 * @param normal
+	 * @param p0 a point on the plane
+	 * @param normal to the plane
 	 */
 	public Plane(Point p0, Vector normal) {
 		this.p0 = p0;
