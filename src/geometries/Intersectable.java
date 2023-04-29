@@ -1,0 +1,22 @@
+/**
+ * 
+ */
+package geometries;
+
+import java.util.List;
+
+import primitives.*;
+
+/**
+ * shapes that are intersectable by a ray
+ * @author shulm
+ *  
+ */
+public interface Intersectable {
+	/**
+	 * find all points in a geometry that intersect with a ray
+	 * @param ray
+	 * @return list of intersection points
+	 */
+	public List<Point> findIntersections(Ray ray);
+}
