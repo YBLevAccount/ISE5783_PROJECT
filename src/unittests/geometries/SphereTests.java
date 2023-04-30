@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 import geometries.*;
 
+/**
+ * tests Sphere
+ * 
+ * @author Yonatan
+ *
+ */
 class SphereTests {
 	/**
 	 * tests {@link geometries.Sphere#getNormal(Point)}
@@ -18,8 +24,7 @@ class SphereTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the getNormal function works properly
 		Sphere s = new Sphere(new Point(3, 1, 3), 5);
-		Vector v = s.getNormal(new Point(7, 4, 3));
-		assertEquals(v, new Vector(4, 3, 0).normalize());
+		assertEquals(new Vector(4, 3, 0).normalize(), s.getNormal(new Point(7, 4, 3)));
 	}
 
 	/**
@@ -27,7 +32,7 @@ class SphereTests {
 	 */
 	@Test
 	public void testFindIntersections() {
-		Sphere sphere = new Sphere(1d, new Point (1, 0, 0));
+		Sphere sphere = new Sphere(new Point(1, 0, 0), 1d);
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: Ray's line is outside the sphere (0 points)
 		assertNull(sphere.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(1, 1, 0))),
@@ -97,10 +102,18 @@ class SphereTests {
 		assertEquals(0, result.size(), "Wrong number of points");
 		// **** Group: Ray's line is tangent to the sphere (all tests 0 points)
 		// TC13: Ray starts before the tangent point
+		result = sphere.findIntersections(new Ray(new Point(0, 1, 0), new Vector(1, 0, 0)));
+		assertEquals(0, result.size(), "Wrong number of points");
 		// TC14: Ray starts at the tangent point
+		result = sphere.findIntersections(new Ray(new Point(2, 0, 0), new Vector(0, 1, 0)));
+		assertEquals(0, result.size(), "Wrong number of points");
 		// TC15: Ray starts after the tangent point
+		result = sphere.findIntersections(new Ray(new Point(2, 0, 1), new Vector(0, 0, 1)));
+		assertEquals(0, result.size(), "Wrong number of points");
 		// **** Group: Special cases
 		// TC16: Ray's line is outside, ray is orthogonal to ray start to sphere's
 		// center line
+		result = sphere.findIntersections(new Ray(new Point(3, 0, 0), new Vector(0, 1, 1)));
+		assertEquals(0, result.size(), "Wrong number of points");
 	}
 }

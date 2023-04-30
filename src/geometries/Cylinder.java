@@ -36,13 +36,12 @@ public class Cylinder extends Tube {
 	@Override
 	public Vector getNormal(Point point) {
 		double rSquared = radius * radius;
-		Point bottomCenter = axisRay.getP0();
 		// checks if the point is on the lowest circle using 
-		if (point.distanceSquared(bottomCenter) < rSquared)
+		if (point.distanceSquared(axisRay.getP0()) < rSquared)
 			return axisRay.getDir().scale(-1.d);
 		// checks if the point is on the highest circle
 		// to get the top center we add the direction vector with size height to the bottom 
-		if (point.distanceSquared(bottomCenter.add((axisRay.getDir()).scale(height))) < rSquared)
+		if (point.distanceSquared(axisRay.getPoint(height)) < rSquared)
 			return axisRay.getDir();
 		// the last case is just the same as tube
 		return super.getNormal(point);
