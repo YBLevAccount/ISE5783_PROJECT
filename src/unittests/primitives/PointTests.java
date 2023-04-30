@@ -18,9 +18,7 @@ class PointTests {
 	void testAdd() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that function is properly working
-		Point p = new Point(-1, 1, 0);
-		p = p.add(new Vector(2, 0, 1));
-		assertEquals(new Point(1, 1, 1), p);
+		assertEquals(new Point(1, 1, 1), new Point(-1, 1, 0).add(new Vector(2, 0, 1)));
 	}
 
 	/**
@@ -30,20 +28,11 @@ class PointTests {
 	void testSubtract() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that function is properly working
-		Point p = new Point(2, 2, 2);
-		Vector v = p.subtract(new Point(1, 1, 1));
-		assertEquals(new Vector(1, 1, 1), v);
+		assertEquals(new Vector(2, 1, 1), new Point(2, 2, 2).subtract(new Point(0, 1, 1)));
 
 		// ================= BVA Tests =========================
 		// TC02: tests vector zero
-		try {
-			p = new Point(-1, 3, 7);
-			v = p.subtract(new Point(-1, 3, 7));
-		} catch (IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "ZERO vector");
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
+		assertThrows(IllegalArgumentException.class, () -> new Point(-1, 3, 7).subtract(new Point(-1, 3, 7)));
 	}
 
 	/**
@@ -54,8 +43,7 @@ class PointTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that function is properly working and returning the distance
 		// between two points
-		Point p = new Point(3, 4, 5);
-		double d = p.distance(new Point(-7, -7, -7));
+		double d = new Point(3, 4, 5).distance(new Point(-7, -7, -7));
 		assertTrue(Util.isZero(d - Math.sqrt(365)));
 	}
 
@@ -67,9 +55,8 @@ class PointTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that function is properly working and returning the distance
 		// squared between two points
-		Point p = new Point(1, 5, 8);
-		double d = p.distanceSquared(new Point(-2, 4, 10));
+		double d = new Point(1, 5, 8).distanceSquared(new Point(-2, 4, 10));
 		assertTrue(Util.isZero(d - 14));
 	}
-	
+
 }

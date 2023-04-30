@@ -1,6 +1,3 @@
-/**
- * 
- */
 package geometries;
 
 import java.util.List;
@@ -15,7 +12,7 @@ import primitives.*;
 public interface Intersectable {
 	/**
 	 * find all points in a geometry that intersect with a ray
-	 * @param ray
+	 * @param ray to find intersections with
 	 * @return list of intersection points
 	 */
 	public List<Point> findIntersections(Ray ray);

@@ -9,6 +9,12 @@ import primitives.Point;
 import primitives.Util;
 import primitives.Vector;
 
+/**
+ * testing Point
+ * 
+ * @author shulm
+ *
+ */
 class VectorTests {
 	/**
 	 * tests {@link primitives.Vector#add(Vector)}
@@ -17,26 +23,24 @@ class VectorTests {
 	void testAdd() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the add function is working properly
-		Vector v = new Vector(1, 2, 5);
-		v = v.add(new Vector(2, 6, 7));
-		assertEquals(v, new Vector(3, 8, 12));
+		assertEquals(new Vector(3, 8, 12), new Vector(1, 2, 5).add(new Vector(2, 6, 7)));
 		// ================= BVA Tests ===========================
 		// TC02: tests that an exception is thrown for vector zero
-		try {
-			v = new Vector(5, 2, 4);
-			v.add(new Vector(-5, -2, -4));
-		} catch (IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "ZERO vector");
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
+		assertThrows(IllegalArgumentException.class, () -> new Vector(5, 2, 4).add(new Vector(-5, -2, -4)));
 	}
+
 	/**
-	 *  tests {@link primitives.Vector#subtract(Vector)}
+	 * tests {@link primitives.Vector#subtract(Vector)}
 	 */
 	@Test
 	void testSubtract() {
-		//there is no need to test the function as it was already tested in Point
+		// ================= Equivalence Partitions Tests ===========================
+		// TC01: tests that function is properly working
+		assertEquals(new Vector(2, 1, 1), new Vector(2, 2, 2).subtract(new Vector(0, 1, 1)));
+
+		// ================= BVA Tests =========================
+		// TC02: tests vector zero
+		assertThrows(IllegalArgumentException.class, () -> new Vector(-1, 3, 7).subtract(new Vector(-1, 3, 7)));
 	}
 
 	/**
@@ -47,26 +51,15 @@ class VectorTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the function is working properly for a positive number that
 		// does not change the direction of the vector
-		Vector v = new Vector(2, 5, 4);
-		v = v.scale(2);
-		assertEquals(v, new Vector(4, 10, 8));
+		assertEquals(new Vector(4, 10, 8), new Vector(2, 5, 4).scale(2));
 		// ================= Equivalence Partitions Tests ===========================
 		// TC02: tests that the function is working properly for a negative number that
 		// changes the direction of the vector
-		v = new Vector(3, 7, 1);
-		v = v.scale(-3);
-		assertEquals(v, new Vector(-9, -21, -3));
+		assertEquals(new Vector(-9, -21, -3), new Vector(3, 7, 1).scale(-3));
 		// ================= BVA Tests ===========================
 		// TC03: tests that the correct exception is thrown for a scale of zero that
 		// would result in vector zero
-		try {
-			v = new Vector(6, 4, 2);
-			v.scale(0);
-		} catch (IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "ZERO vector");
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
+		assertThrows(IllegalArgumentException.class, () -> new Vector(6, 4, 2).scale(0));
 	}
 
 	/**
@@ -76,30 +69,14 @@ class VectorTests {
 	void testCrossProduct() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the cross product function is working correctly
-		Vector v = new Vector(4, 2, 3);
-		v = v.crossProduct(new Vector(2, 5, 1));
-		assertEquals(v, new Vector(-13, 2, 16));
+		assertEquals(new Vector(-13, 2, 16), new Vector(4, 2, 3).crossProduct(new Vector(2, 5, 1)));
 		// ================= BVA Tests ===========================
 		// TC02: tests that an exception is thrown when the vector are parallel with the
 		// same direction
-		try {
-			v = new Vector(3, 2, 2);
-			v.crossProduct(new Vector(6, 4, 4));
-		} catch (IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "ZERO vector");
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
+		assertThrows(IllegalArgumentException.class, () -> new Vector(3, 2, 2).crossProduct(new Vector(6, 4, 4)));
 		// TC03: tests that an exception is thrown when the vector are parallel with
 		// opposite directions
-		try {
-			v = new Vector(4, 1, 5);
-			v.crossProduct(new Vector(-12, -3, -15));
-		} catch (IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "ZERO vector");
-		} catch (Exception e) {
-			fail("Incorrect exception for vector zero");
-		}
+		assertThrows(IllegalArgumentException.class, () -> new Vector(4, 1, 5).crossProduct(new Vector(-12, -3, -15)));
 	}
 
 	/**
@@ -110,19 +87,16 @@ class VectorTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the dot product function is working correctly for positive
 		// outputs
-		Vector v = new Vector(1, 4, 2);
-		double d = v.dotProduct(new Vector(5, 5, 2));
+		double d = new Vector(1, 4, 2).dotProduct(new Vector(5, 5, 2));
 		assertTrue(Util.isZero(d - 29));
 		// ================= Equivalence Partitions Tests ===========================
 		// TC02: tests that the dot product function is working correctly for negative
 		// outputs
-		v = new Vector(-3, 1, -5);
-		d = v.dotProduct(new Vector(1, 2, 4));
+		d = new Vector(-3, 1, -5).dotProduct(new Vector(1, 2, 4));
 		assertTrue(Util.isZero(d + 21));
 		// ================= BVA Tests ===========================
 		// TC03: tests that the result is equal when the vector are orthogonal
-		v = new Vector(4, 8, 1);
-		d = v.dotProduct(new Vector(-5, 4, -12));
+		d = new Vector(4, 8, 1).dotProduct(new Vector(-5, 4, -12));
 		assertTrue(Util.isZero(d));
 	}
 
@@ -133,8 +107,7 @@ class VectorTests {
 	void testLengthSquared() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the lengthSquared function is working properly
-		Vector v = new Vector(3, 5, 2);
-		double d = v.lengthSquared();
+		double d = new Vector(3, 5, 2).lengthSquared();
 		assertTrue(Util.isZero(d - 38));
 	}
 
@@ -145,8 +118,7 @@ class VectorTests {
 	void testLength() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the length function is working properly
-		Vector v = new Vector(4, 1, 2);
-		double d = v.length();
+		double d = new Vector(4, 1, 2).length();
 		assertTrue(Util.isZero(d - Math.sqrt(21)));
 	}
 
@@ -157,9 +129,7 @@ class VectorTests {
 	void testNormalize() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that the normalize function is working properly
-		Vector v = new Vector(2, 1, 2);
-		v = v.normalize();
-		assertEquals(v, new Vector(2.d / 3.d, 1.d / 3.d, 2.d / 3.d));
+		assertEquals(new Vector(2.d / 3.d, 1.d / 3.d, 2.d / 3.d), new Vector(2, 1, 2).normalize());
 	}
 
 }
