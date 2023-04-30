@@ -59,25 +59,25 @@ class TriangleTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: intersection inside the Triangle (1 point)
 		List<Point> result = triangle.findIntersections(new Ray(new Point(0.25d, 3d, 0.25d), new Vector(0, -1, 0)));
-		assertEquals (1, result.size(), "wrong number of intersections");
+		assertEquals (1, result.size(), "Wrong number of points");
 		assertEquals(new Point(0.25, 0.5, 0.25) ,result.get(0), "wrong point was found");
 		// TC02: intersection with plane but outside the triangle against edge (0 points)
 		result = triangle.findIntersections(new Ray(new Point(1.5, 1, -0.5), new Vector(-1, 0, 0)));
-		assertEquals (0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// TC03: intersection with plane but outside the triangle against vertex (0 points)
 		result = triangle.findIntersections(new Ray(new Point(1, -0.5, -3), new Vector(0, 0, 1)));
-		assertEquals (0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		
 		// ================= BVA Tests ===========================
 		// TC04: intersection on edge (0 points)
 		result = triangle.findIntersections(new Ray(new Point(0, 0.5, 1), new Vector(0, 0, -1)));
-		assertEquals (0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// TC05: intersection on vertex (0 points)
 		result = triangle.findIntersections(new Ray(new Point(3, 0, 4), new Vector(-1, 0, -1)));
-		assertEquals (0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// TC06: intersection on continuation of a edge (0 points)
 		result = triangle.findIntersections(new Ray(new Point(1, -3, 6), new Vector(-1, -1, -1)));
-		assertEquals (0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 	}
 
 }

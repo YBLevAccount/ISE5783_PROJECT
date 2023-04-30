@@ -30,7 +30,7 @@ public class Plane implements Geometry {
 	/**
 	 * create plane using point in the plane and normal to the plane
 	 * 
-	 * @param p0 a point on the plane
+	 * @param p0     a point on the plane
 	 * @param normal to the plane
 	 */
 	public Plane(Point p0, Vector normal) {
@@ -63,6 +63,15 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
+		Point rayP0 = ray.getP0();
+		if (!rayP0.equals(p0)) {
+			double denom = normal.dotProduct(ray.getDir());
+			if (!Util.isZero(denom)) {
+				double t = Util.alignZero(normal.dotProduct(p0.subtract(rayP0)) / denom);
+				if (t > 0)
+					return List.of(ray.getPoint(t));
+			}
+		}
 		return null;
 	}
 }

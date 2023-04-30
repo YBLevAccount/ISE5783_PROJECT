@@ -53,38 +53,37 @@ class PlaneTests {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: ray intersects with the plane, not orthogonal (1 point)
 		List<Point> result = plane.findIntersections(new Ray(new Point(2, 2, 2), new Vector(-1, -2, -4)));
-		assertEquals(1, result.size(), "wrong number of intersections");
+		assertEquals(1, result.size(), "Wrong number of points");
 		assertEquals(new Point(1.5, 1, 0), result.get(0), "wrong point found");
 		//TC02: ray does not intersects with the plane, not parallel (0 points)
 		result = plane.findIntersections(new Ray(new Point(2, 4, 24), new Vector(13, -2, 1)));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// ================= BVA Tests ===========================
 		// **** Group: ray is parallel to the plane (0 points)
 		// TC03: ray included in the plane
 		result = plane.findIntersections(new Ray(new Point(0, 0.25d, 0), new Vector(1, -2, 0)));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// TC04: ray does not  intersect with the plane
 		result = plane.findIntersections(new Ray(new Point(7, 4, 240), new Vector(1, -3, 0)));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// **** Group: ray is orthogonal to the plane
 		// TC05: ray starts before the plane (1 point)
 		Vector planeNormal = new Vector(0, 0, 1);
 		result = plane.findIntersections(new Ray(new Point(-1, -2, -2), planeNormal));
-		assertEquals(1, result.size(), "wrong number of intersections");
+		assertEquals(1, result.size(), "Wrong number of points");
 		assertEquals(new Point(-1, -2, 0), result.get(0), "wrong point found");
 		// TC06: ray starts at the plane (0 points)
 		result = plane.findIntersections(new Ray(new Point(1, 0, 0), planeNormal));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// TC07: ray starts after the plane (0 points)
 		result = plane.findIntersections(new Ray(new Point(-1, -2, 13), planeNormal));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// **** Group: the other tests
 		// TC08: ray starts at the plane but not on P0 (0 points)
 		result = plane.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(1, 3, 4)));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 		// TC09: ray starts at P0
 		result = plane.findIntersections(new Ray(plane.getP0(), new Vector(2, 3, 4)));
-		assertEquals(0, result.size(), "wrong number of intersections");
+		assertNull(result, "Wrong number of points");
 	}
-
 }

@@ -2,15 +2,19 @@ package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static primitives.Util.isZero;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /** Testing Polygons
@@ -84,4 +88,34 @@ public class PolygonTests {
          assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
                     "Polygon's normal is not orthogonal to one of the edges");
    }
+   
+   /**
+	 * tests {@link geometries.Polygon#findIntersections(Point)}
+	 */
+	@Test
+	void testFindIntersections() {
+		Polygon rectangle = new Polygon (new Point(2, 0, 0), new Point(2, 0, 1), new Point(0, 0, 1), new Point(0, 0, 0));
+		// ================= Equivalence Partitions Tests ===========================
+		// TC01: intersection inside the Polygon (1 point)
+		List<Point> result = rectangle.findIntersections(new Ray(new Point(0.25d, 3d, 0.25d), new Vector(0, -1, 0)));
+		assertEquals (1, result.size(), "Wrong number of points");
+		assertEquals(new Point(0.25, 0, 0.25) ,result.get(0), "wrong point was found");
+		// TC02: intersection with plane but outside the Polygon against edge (0 points)
+		result = rectangle.findIntersections(new Ray(new Point(4, 1, -2), new Vector(-1, -1, 0)));
+		assertNull(result, "Wrong number of points");
+		// TC03: intersection with plane but outside the Polygon against vertex (0 points)
+		result = rectangle.findIntersections(new Ray(new Point(-1, -4, -5), new Vector(0, 1, 1)));
+		assertNull(result, "Wrong number of points");
+		
+		// ================= BVA Tests ===========================
+		// TC04: intersection on edge (0 points)
+		result = rectangle.findIntersections(new Ray(new Point(1, 3, 1), new Vector(0, -1, 0)));
+		assertNull(result, "Wrong number of points");
+		// TC05: intersection on vertex (0 points)
+		result = rectangle.findIntersections(new Ray(new Point(3, 2, 2), new Vector(-1, -2, -1)));
+		assertNull(result, "Wrong number of points");
+		// TC06: intersection on continuation of a edge (0 points)
+		result = rectangle.findIntersections(new Ray(new Point(4, 1, 2), new Vector(-1, -1, -1)));
+		assertNull(result, "Wrong number of points");
+	}
 }

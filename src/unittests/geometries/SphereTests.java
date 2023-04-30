@@ -52,7 +52,7 @@ class SphereTests {
 		assertEquals(List.of(p1), result, "Ray crosses sphere");
 		// TC04: Ray starts after the sphere (0 points)
 		result = sphere.findIntersections(new Ray(new Point(3, 3, 3), new Vector(1, 1, -1)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// =============== Boundary Values Tests ==================
 		// **** Group: Ray's line crosses the sphere (but not the center)
 		// TC05: Ray starts at sphere and goes inside (1 points)
@@ -64,7 +64,7 @@ class SphereTests {
 		// TC06: Ray starts at sphere and goes outside (0 points)
 		result = sphere
 				.findIntersections(new Ray(new Point(1, Math.sqrt(2) / 2, Math.sqrt(2) / 2), new Vector(0, 2, 1)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// **** Group: Ray's line goes through the center
 		// TC07: Ray starts before the sphere (2 points)
 		p1 = new Point(1, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
@@ -80,7 +80,7 @@ class SphereTests {
 		result = sphere
 				.findIntersections(new Ray(new Point(1, Math.sqrt(2) / 2, Math.sqrt(2) / 2), new Vector(0, -1, -1)));
 		assertEquals(1, result.size(), "Wrong number of points");
-		assertEquals(List.of(p1, p2), result, "Ray crosses sphere");
+		assertEquals(List.of(p1), result, "Ray crosses sphere");
 		// TC09: Ray starts inside (1 points)
 		p1 = new Point(1, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		result = sphere.findIntersections(
@@ -95,25 +95,25 @@ class SphereTests {
 		// TC11: Ray starts at sphere and goes outside (0 points)
 		result = sphere
 				.findIntersections(new Ray(new Point(1, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2), new Vector(0, -1, -1)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// TC12: Ray starts after sphere (0 points)
 		result = sphere.findIntersections(
 				new Ray(new Point(1, -Math.sqrt(2) / 2 - 1, -Math.sqrt(2) / 2 - 1), new Vector(0, -1, -1)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// **** Group: Ray's line is tangent to the sphere (all tests 0 points)
 		// TC13: Ray starts before the tangent point
 		result = sphere.findIntersections(new Ray(new Point(0, 1, 0), new Vector(1, 0, 0)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// TC14: Ray starts at the tangent point
 		result = sphere.findIntersections(new Ray(new Point(2, 0, 0), new Vector(0, 1, 0)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// TC15: Ray starts after the tangent point
 		result = sphere.findIntersections(new Ray(new Point(2, 0, 1), new Vector(0, 0, 1)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 		// **** Group: Special cases
 		// TC16: Ray's line is outside, ray is orthogonal to ray start to sphere's
 		// center line
 		result = sphere.findIntersections(new Ray(new Point(3, 0, 0), new Vector(0, 1, 1)));
-		assertEquals(0, result.size(), "Wrong number of points");
+		assertNull(result, "Wrong number of points");
 	}
 }
