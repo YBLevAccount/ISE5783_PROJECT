@@ -1,7 +1,5 @@
 package geometries;
 
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-
 import java.util.List;
 
 import primitives.*;
@@ -50,16 +48,15 @@ public class Sphere extends RadialGeometry {
 		double tm = u.dotProduct(ray.getDir());
 		double d = Math.sqrt(u.lengthSquared() - tm * tm);
 		double dif = Util.alignZero(d - radius);
-		if (dif < 0) {
-			double th = Math.sqrt(radius * radius - d * d);
-			double t1 = Util.alignZero(tm - th);
-			double t2 = Util.alignZero(tm + th);
-			if (t2 > 0) {
-				if (t1 > 0) 
-					return List.of(ray.getPoint(t1), ray.getPoint(t2));
-				return List.of(ray.getPoint(t2));
-			}
-		}
-		return null;
+		if (dif >= 0)
+			return null;
+		double th = Math.sqrt(radius * radius - d * d);
+		double t2 = Util.alignZero(tm + th);
+		if (t2 <= 0)
+			return null;
+		double t1 = Util.alignZero(tm - th);
+		return t1 > 0 //
+				? List.of(ray.getPoint(t1), ray.getPoint(t2)) //
+				: List.of(ray.getPoint(t2));
 	}
 }

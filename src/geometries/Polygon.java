@@ -2,9 +2,7 @@ package geometries;
 
 import static primitives.Util.isZero;
 
-import java.util.LinkedList;
 import java.util.List;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Util;
@@ -89,9 +87,13 @@ public class Polygon implements Geometry {
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
 	}
-	
+
 	@Override
-	public List<Point> findIntersections(Ray ray){
+	public List<Point> findIntersections(Ray ray) {
+		List<Point> intersections = plane.findIntersections(ray);
+		if (intersections == null)
+			return null;
+
 		Point rayP0 = ray.getP0();
 		Vector rayVec = ray.getDir();
 		int n = vertices.size();
@@ -100,11 +102,11 @@ public class Polygon implements Geometry {
 			edgeVectors[i] = vertices.get(i).subtract(rayP0);
 		double[] scalars = new double[n];
 		for (int i = 0; i < n - 1; ++i)
-			scalars[i] = rayVec.dotProduct(edgeVectors[i].crossProduct(edgeVectors[i+1]));
+			scalars[i] = rayVec.dotProduct(edgeVectors[i].crossProduct(edgeVectors[i + 1]));
 		scalars[n - 1] = rayVec.dotProduct(edgeVectors[n - 1].crossProduct(edgeVectors[0]));
-		for (int i = 0; i < n - 1; ++i) 
-			if (!Util.checkSign(scalars[i], scalars[i+1]))
+		for (int i = 0; i < n - 1; ++i)
+			if (Util.alignZero(scalars[i] * scalars[i + 1]) <= 0)
 				return null;
-		return plane.findIntersections(ray);
+		return intersections;
 	}
 }

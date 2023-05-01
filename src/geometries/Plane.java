@@ -64,14 +64,12 @@ public class Plane implements Geometry {
 	@Override
 	public List<Point> findIntersections(Ray ray) {
 		Point rayP0 = ray.getP0();
-		if (!rayP0.equals(p0)) {
-			double denom = normal.dotProduct(ray.getDir());
-			if (!Util.isZero(denom)) {
-				double t = Util.alignZero(normal.dotProduct(p0.subtract(rayP0)) / denom);
-				if (t > 0)
-					return List.of(ray.getPoint(t));
-			}
-		}
-		return null;
+		if (rayP0.equals(p0))
+			return null;
+		double denom = normal.dotProduct(ray.getDir());
+		if (Util.isZero(denom))
+			return null;
+		double t = Util.alignZero(normal.dotProduct(p0.subtract(rayP0)) / denom);
+		return t <= 0 ? null : List.of(ray.getPoint(t));
 	}
 }

@@ -46,8 +46,14 @@ class TriangleTests {
 	void testGetNormal() {
 		// ================= Equivalence Partitions Tests ===========================
 		// TC01: tests that getNormal(Point) is working properly
-		Triangle t = new Triangle(new Point(1, 1, 1), new Point(2, 2, 2), new Point(-3, 4, -3));
-		assertEquals(new Vector(-1, 0, 1).normalize(), t.getNormal(new Point(1, 0, 1)));
+		Point a = new Point(1, 1, 1), b = new Point(2, 2, 2), c = new Point(-3, 4, -3);
+		Triangle t = new Triangle(a, b, c);
+		Vector result = t.getNormal(new Point(1, 0, 1));
+		// check that the vector is normalized
+		assertEquals(0, Util.alignZero(result.lengthSquared() - 1));
+		// check that the vector is orthogonal to the edges
+		assertEquals(0, Util.alignZero(result.dotProduct(a.subtract(b))));
+		assertEquals(0, Util.alignZero(result.dotProduct(b.subtract(c))));
 	}
 	
 	/**

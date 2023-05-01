@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 import geometries.*;
 
+/**
+ * testing Tube
+ * @author Yonatan
+ *
+ */
 class TubeTests {
 	/**
 	 * tests {@link geometries.Tube#getNormal(Point)}

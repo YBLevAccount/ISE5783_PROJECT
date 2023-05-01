@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import geometries.*;
 import primitives.*;
 
-/**
+/** testing Geometries
  * @author Yonatan
  *
  */

@@ -4,13 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import primitives.Double3;
-import primitives.Point;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 /**
- * testing Point
+ * testing Vector
  * 
  * @author shulm
  *
