@@ -87,9 +87,10 @@ public class Camera {
 	 * @param vUp the second vector
 	 * @throws IllegalArgumentException when the vectors are not orthogonal
 	 */
-	public Camera(Vector vTo, Vector vUp) {
-		if (Util.isZero(vTo.dotProduct(vUp)))
+	public Camera(Point position, Vector vTo, Vector vUp) {
+		if (!Util.isZero(vTo.dotProduct(vUp)))
 			throw new IllegalArgumentException("Vectors are not orthogonal");
+		this.position = position;
 		this.vTo = vTo.normalize();
 		this.vUp = vUp.normalize();
 		this.vRight = this.vTo.crossProduct(this.vUp);
@@ -118,15 +119,25 @@ public class Camera {
 		this.distance = distance;
 		return this;
 	}
+
 	/**
 	 * constructs a ray through a specific pixel and specific resolution
-	 * @param nX x axis of resolution
-	 * @param nY y axis of resolution
-	 * @param j y axis of pixel
-	 * @param i x axis of pixel
+	 * 
+	 * @param nX number of pixels in each row
+	 * @param nY number of pixels in each column
+	 * @param j  the column index of pixel
+	 * @param i  the row index of pixel
 	 * @return the constructed ray
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
-		return null;
+		Point pIJ = position.add(vTo.scale(distance)); // pCenter
+		double xJ = Util.alignZero((j - (nX - 1) / 2d) * (width / nX));
+		if (xJ != 0)
+			pIJ = pIJ.add(vRight.scale(xJ));
+		double yI = Util.alignZero(-(i - (nY - 1) / 2d) * (height / nY));
+		if (yI != 0)
+			pIJ = pIJ.add(vUp.scale(yI));
+		return new Ray(position, pIJ.subtract(position));
+
 	}
 }
