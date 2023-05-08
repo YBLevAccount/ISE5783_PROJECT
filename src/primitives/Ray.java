@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 /**
  * This class represents a ray using starting point and direction vector
  * 
@@ -48,14 +50,15 @@ public class Ray {
 			return this.p0.equals(other.p0) && this.dir.equals(other.dir);
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return p0.toString() + dir;
 	}
-	
+
 	/**
 	 * find point on the ray using distance from starting point
+	 * 
 	 * @param t distance from starting point
 	 * @return the point
 	 */
@@ -63,5 +66,26 @@ public class Ray {
 		if (Util.isZero(t))
 			return p0;
 		return p0.add(dir.scale(t));
+	}
+
+	/**
+	 * finds the closest point to the head point of the ray
+	 * 
+	 * @param points list of points to check
+	 * @return the closest point
+	 */
+	public Point findClosestPoint(List<Point> points) {
+		if (points == null || points.size() == 0)
+			return null;
+		Point closestPoint = points.get(0);
+		double minDistance = p0.distanceSquared(closestPoint);
+		for (Point point : points) {
+			double currentDistance = p0.distanceSquared(point);
+			if (currentDistance < minDistance) {
+				minDistance = currentDistance;
+				closestPoint = point;
+			}
+		}
+		return closestPoint;
 	}
 }
