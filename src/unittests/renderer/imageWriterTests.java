@@ -3,8 +3,6 @@
  */
 package unittests.renderer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
 import primitives.Color;
@@ -23,7 +21,7 @@ class imageWriterTests {
 	 */
 	@Test
 	void testWriteToImage() {
-		ImageWriter imageWriter = new ImageWriter("squares.png", 800, 500);
+		ImageWriter imageWriter = new ImageWriter("squares", 800, 500);
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: 16 X 10 yellow squares with red lines
 		for (int j = 0; j < 500; ++j)

@@ -8,7 +8,7 @@ import primitives.*;
 /**
  * represents the camera that creates the rays
  * 
- * @author shulm
+ * @author shulman and 
  *
  */
 public class Camera {
