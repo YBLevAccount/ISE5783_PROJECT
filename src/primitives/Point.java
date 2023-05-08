@@ -3,7 +3,7 @@ package primitives;
 /**
  * This class represents a point in a 3D world
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Point {

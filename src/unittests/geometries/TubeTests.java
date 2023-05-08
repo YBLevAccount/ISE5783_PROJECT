@@ -9,7 +9,8 @@ import geometries.*;
 
 /**
  * testing Tube
- * @author Yonatan
+ * 
+ * @author Shulman and Yonatan
  *
  */
 class TubeTests {

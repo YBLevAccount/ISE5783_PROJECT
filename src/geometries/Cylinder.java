@@ -5,7 +5,7 @@ import primitives.*;
 /**
  * Cylinder is Tube with finite height
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Cylinder extends Tube {

@@ -2,7 +2,7 @@ package primitives;
 
 /** 
  * the class represents a vector in a 3D world
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Vector extends Point {

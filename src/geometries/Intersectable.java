@@ -6,7 +6,7 @@ import primitives.*;
 
 /**
  * shapes that are intersectable by a ray
- * @author shulm
+ * @author Shulman and Yonatan
  *  
  */
 public interface Intersectable {

@@ -9,7 +9,7 @@ import primitives.*;
 /**
  * testing Vector
  * 
- * @author shulm
+ * @author Shulman and Yonatan
  *
  */
 class VectorTests {

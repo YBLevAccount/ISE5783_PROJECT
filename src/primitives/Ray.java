@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * This class represents a ray using starting point and direction vector
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Ray {

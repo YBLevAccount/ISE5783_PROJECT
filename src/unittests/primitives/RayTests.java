@@ -11,7 +11,7 @@ import primitives.*;
 /**
  * testing Ray
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 class RayTests {

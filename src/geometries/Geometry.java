@@ -4,7 +4,7 @@ import primitives.*;
 
 /**
  * public interface for geometries with normal
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public interface Geometry extends Intersectable{

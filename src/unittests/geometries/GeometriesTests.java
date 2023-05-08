@@ -12,7 +12,7 @@ import geometries.*;
 import primitives.*;
 
 /** testing Geometries
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 class GeometriesTests {

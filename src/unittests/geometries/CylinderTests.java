@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * testing Cylinder
- * @author Yanatan
+ * @author Shulman and Yonatan
  *
  */
 class CylinderTests {

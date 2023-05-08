@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * integration test with camera and geometries
  * 
- * @author shulm
+ * @author Shulman and Yonatan
  *
  */
 class CameraWithGeometriesTests {

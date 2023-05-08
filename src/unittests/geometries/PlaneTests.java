@@ -12,7 +12,7 @@ import geometries.*;
 /**
  * testing Plane
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 class PlaneTests {

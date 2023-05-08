@@ -7,7 +7,7 @@ import primitives.*;
 /**
  * 2D plane in a 3D world
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Plane implements Geometry {

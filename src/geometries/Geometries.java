@@ -7,7 +7,7 @@ import primitives.Point;
 import primitives.Ray;
 
 /**
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Geometries implements Intersectable {

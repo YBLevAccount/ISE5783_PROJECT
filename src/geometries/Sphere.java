@@ -7,7 +7,7 @@ import primitives.*;
 /**
  * this class represents a sphere
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 public class Sphere extends RadialGeometry {

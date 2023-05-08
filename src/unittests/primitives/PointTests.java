@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * testing Point
  * 
- * @author shulm
+ * @author Shulman and Yonatan
  *
  */
 class PointTests {

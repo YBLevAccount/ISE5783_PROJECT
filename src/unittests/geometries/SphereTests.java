@@ -12,7 +12,7 @@ import geometries.*;
 /**
  * tests Sphere
  * 
- * @author Yonatan
+ * @author Shulman and Yonatan
  *
  */
 class SphereTests {
