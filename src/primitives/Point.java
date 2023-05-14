@@ -13,6 +13,11 @@ public class Point {
 	final Double3 xyz;
 
 	/**
+	 * Zero point (0,0,0)
+	 */
+	public static final Point ZERO = new Point(0, 0, 0);
+
+	/**
 	 * create point using coordinates
 	 * 
 	 * @param x axis
@@ -92,25 +97,28 @@ public class Point {
 		result += dif * dif;
 		return result;
 	}
-	
+
 	/**
 	 * getter for x value
+	 * 
 	 * @return x value
 	 */
 	public double getX() {
 		return xyz.d1;
 	}
-	
+
 	/**
 	 * getter for y value
+	 * 
 	 * @return y value
 	 */
 	public double getY() {
 		return xyz.d2;
 	}
-	
+
 	/**
 	 * getter for z value
+	 * 
 	 * @return z value
 	 */
 	public double getZ() {

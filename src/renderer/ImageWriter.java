@@ -49,7 +49,7 @@ public class ImageWriter {
 	 * 
 	 * @return the amount of vertical pixels
 	 */
-	public int getNy() {
+	public int getNY() {
 		return nY;
 	}
 
@@ -58,7 +58,7 @@ public class ImageWriter {
 	 * 
 	 * @return the amount of horizontal pixels
 	 */
-	public int getNx() {
+	public int getNX() {
 		return nX;
 	}
 
