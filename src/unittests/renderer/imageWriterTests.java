@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package unittests.renderer;
 
 import org.junit.jupiter.api.Test;
@@ -6,12 +9,12 @@ import primitives.Color;
 import renderer.ImageWriter;
 
 /**
- * tests ImageWriter class
+ * tests ImageWriter
  * 
  * @author Shulman and Yonatan
  *
  */
-class ImageWriterTests {
+class imageWriterTests {
 
 	/**
 	 * tests {@link renderer.ImageWriter#writeToImage()}.

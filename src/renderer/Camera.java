@@ -11,7 +11,6 @@ import primitives.*;
  * represents the camera that creates the rays
  * 
  * @author Shulman and Yonatan
- *
  */
 public class Camera {
 	private Point position;
