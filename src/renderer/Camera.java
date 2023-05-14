@@ -20,6 +20,15 @@ public class Camera {
 	private RayTracerBase rayTracer;
 
 	/**
+	 * finds the center of the view plane
+	 * 
+	 * @return the center of the view plane
+	 */
+	public Point findVPCenter() {
+		return position.add(vTo.scale(distance));
+	}
+
+	/**
 	 * setter for imageWriter
 	 * 
 	 * @param imageWriter to write the image
@@ -155,7 +164,7 @@ public class Camera {
 	 * @return the constructed ray
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
-		Point pIJ = position.add(vTo.scale(distance)); // pCenter
+		Point pIJ = findVPCenter(); // pCenter
 		double xJ = Util.alignZero((j - (nX - 1) / 2d) * (width / nX));
 		if (xJ != 0)
 			pIJ = pIJ.add(vRight.scale(xJ));
@@ -180,7 +189,7 @@ public class Camera {
 		int nX = imageWriter.getNX();
 		for (int j = 0; j < nY; ++j)
 			for (int i = 0; i < nX; ++i)
-				imageWriter.writePixel(j, i, castRay(j, i));
+				imageWriter.writePixel(i, j, castRay(i, j));
 	}
 
 	/**
@@ -225,4 +234,36 @@ public class Camera {
 		return rayTracer.traceRay(constructRay(imageWriter.getNX(), imageWriter.getNY(), j, i));
 	}
 
+	/**
+	 * changes the position of the camera
+	 * 
+	 * @param newPosition
+	 * @return this object
+	 * @throws IllegalArgumentException if the new position is in the center of the
+	 *                                  scene
+	 */
+	public Camera changePosition(Point newPosition) {
+		Point pCenter = findVPCenter();
+		double newDistance = newPosition.distance(pCenter);
+		if (Util.isZero(newDistance))
+			throw new IllegalArgumentException("New Position Can't Be the Center of the Scene");
+		Vector newVTo = pCenter.subtract(newPosition).normalize();
+		distance = newDistance;
+		position = newPosition;
+		if (newVTo.equals(vUp)) {
+			vUp = vTo.scale(-1);
+			vTo = newVTo;
+			return this;
+		}
+		if (newVTo.equals(vUp.scale(-1))) {
+			vUp = vTo;
+			vTo = newVTo;
+			return this;
+		}
+		
+		vTo = newVTo;
+		vRight = vTo.crossProduct(vUp).normalize();
+		vUp = vRight.crossProduct(vTo);
+		return this;
+	}
 }
