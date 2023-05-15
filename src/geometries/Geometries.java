@@ -1,16 +1,16 @@
 package geometries;
 
 import java.util.LinkedList;
+
 import java.util.List;
 
-import primitives.Point;
 import primitives.Ray;
 
 /**
  * @author Shulman and Yonatan
  *
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
 	private List<Intersectable> shapes;
 
@@ -40,10 +40,10 @@ public class Geometries implements Intersectable {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		LinkedList<Point> intersections = null;
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		LinkedList<GeoPoint> intersections = null;
 		for (Intersectable shape : shapes) {
-			List<Point> shapeIntersections = shape.findIntersections(ray);
+			List<GeoPoint> shapeIntersections = shape.findGeoIntersectionsHelper(ray);
 			if (shapeIntersections != null) {
 				if (intersections == null)
 					intersections = new LinkedList<>();

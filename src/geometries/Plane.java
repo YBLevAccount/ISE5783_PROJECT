@@ -10,7 +10,7 @@ import primitives.*;
  * @author Shulman and Yonatan
  *
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
 	private final Point p0;
 	private final Vector normal;
@@ -62,7 +62,7 @@ public class Plane implements Geometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		Point rayP0 = ray.getP0();
 		if (rayP0.equals(p0))
 			return null;
@@ -70,6 +70,9 @@ public class Plane implements Geometry {
 		if (Util.isZero(denom))
 			return null;
 		double t = Util.alignZero(normal.dotProduct(p0.subtract(rayP0)) / denom);
-		return t <= 0 ? null : List.of(ray.getPoint(t));
+		return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+	}
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
+		return findGeoIntersectionsHelper(ray);
 	}
 }

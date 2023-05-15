@@ -2,6 +2,8 @@ package primitives;
 
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
+
 /**
  * This class represents a ray using starting point and direction vector
  * 
@@ -75,17 +77,22 @@ public class Ray {
 	 * @return the closest point
 	 */
 	public Point findClosestPoint(List<Point> points) {
-		if (points == null || points.size() == 0)
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+	}
+
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
+		if (geoPoints == null || geoPoints.size() == 0)
 			return null;
-		Point closestPoint = points.get(0);
-		double minDistance = p0.distanceSquared(closestPoint);
-		for (Point point : points) {
-			double currentDistance = p0.distanceSquared(point);
+		GeoPoint closestGeoPoint = geoPoints.get(0);
+		double minDistance = p0.distanceSquared(closestGeoPoint.point);
+		for (GeoPoint geoPoint : geoPoints) {
+			double currentDistance = p0.distanceSquared(geoPoint.point);
 			if (currentDistance < minDistance) {
 				minDistance = currentDistance;
-				closestPoint = point;
+				closestGeoPoint = geoPoint;
 			}
 		}
-		return closestPoint;
+		return closestGeoPoint;
 	}
 }
