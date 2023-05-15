@@ -13,7 +13,7 @@ public abstract class RayTracerBase {
 	/**
 	 * the scene that contains the geometries and lighting
 	 */
-	protected Scene scene;
+	protected final Scene scene;
 
 	/**
 	 * construct rayTracer with specific scene

@@ -14,7 +14,7 @@ import renderer.ImageWriter;
  * @author Shulman and Yonatan
  *
  */
-class imageWriterTests {
+class ImageWriterTests {
 
 	/**
 	 * tests {@link renderer.ImageWriter#writeToImage()}.
@@ -24,9 +24,11 @@ class imageWriterTests {
 		ImageWriter imageWriter = new ImageWriter("squares", 800, 500);
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: 16 X 10 yellow squares with red lines
+		Color red = new Color(255, 0, 0);
+		Color yellow = new Color(255, 255, 0);
 		for (int j = 0; j < 500; ++j)
 			for (int i = 0; i < 800; ++i) {
-				Color color = (i % 50 <= 1 || j % 50 <= 1) ? new Color(255, 0, 0) : new Color(255, 255, 0);
+				Color color = (i % 50 <= 1 || j % 50 <= 1) ?  red : yellow;
 				imageWriter.writePixel(i, j, color);
 			}
 		imageWriter.writeToImage();
