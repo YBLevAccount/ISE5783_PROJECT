@@ -8,6 +8,8 @@ import primitives.*;
  *
  */
 public abstract class Geometry extends Intersectable{
+	
+	private Material material = new Material();
 	/**
 	 * emission light of the object
 	 */
@@ -32,6 +34,20 @@ public abstract class Geometry extends Intersectable{
 	 */
 	public Geometry setEmission(Color emission) {
 		this.emission = emission;
+		return this;
+	}
+	/** getter for the material
+	 * @return the material
+	 */
+	public Material getMaterial() {
+		return material;
+	}
+	/** setter for the Geometry
+	 * @param material the material to set
+	 * @return this object
+	 */
+	public Geometry setMaterial(Material material) {
+		this.material = material;
 		return this;
 	}
 }

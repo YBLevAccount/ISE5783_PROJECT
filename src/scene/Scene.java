@@ -1,11 +1,11 @@
-/**
- * 
- */
 package scene;
 
-import geometries.Geometries;
-import lighting.AmbientLight;
-import primitives.Color;
+import java.util.List;
+import java.util.LinkedList;
+
+import geometries.*;
+import lighting.*;
+import primitives.*;
 
 /**
  * this class represents the collection of lights and geometries
@@ -30,6 +30,11 @@ public class Scene {
 	 * the geometries in the scene
 	 */
 	public Geometries geometries = new Geometries();
+	
+	/**
+	 * the light sources in the scene
+	 */
+	public List<LightSource> lights = new LinkedList<>();
 
 	public Scene(String name) {
 		this.name = name;
@@ -65,6 +70,16 @@ public class Scene {
 	 */
 	public Scene setGeometries(Geometries geometries) {
 		this.geometries = geometries;
+		return this;
+	}
+	
+	/**
+	 * setter for lights
+	 * @param lights list of the lights in the scene
+	 * @return this object
+	 */
+	public Scene setLights(List<LightSource> lights) {
+		this.lights = lights;
 		return this;
 	}
 

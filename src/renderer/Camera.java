@@ -177,10 +177,11 @@ public class Camera {
 
 	/**
 	 * this function checks that all the arguments are given
+	 * @return this object
 	 * 
 	 * @throws MissingResourceException if some resources are missing
 	 */
-	public void renderImage() {
+	public Camera renderImage() {
 		if (position == null || vUp == null || vTo == null || vRight == null || height <= 0 || width <= 0
 				|| distance <= 0 || imageWriter == null || rayTracer == null)
 			throw new MissingResourceException("Arguments Are Missing", "Camera",
@@ -190,6 +191,7 @@ public class Camera {
 		for (int j = 0; j < nY; ++j)
 			for (int i = 0; i < nX; ++i)
 				imageWriter.writePixel(i, j, castRay(i, j));
+		return this;
 	}
 
 	/**

@@ -12,8 +12,7 @@ import primitives.Double3;
  * @author Shulman and Yonatan
  *
  */
-public class AmbientLight {
-	private final Color intensity;
+public class AmbientLight extends Light {
 	public static final AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
 
 	/**
@@ -23,7 +22,7 @@ public class AmbientLight {
 	 * @param kA the attenuation vector
 	 */
 	public AmbientLight(Color iA, Double3 kA) {
-		intensity = iA.scale(kA);
+		super(iA.scale(kA));
 	}
 
 	/**
@@ -33,16 +32,6 @@ public class AmbientLight {
 	 * @param kA the attenuation scalar
 	 */
 	public AmbientLight(Color iA, double kA) {
-		intensity = iA.scale(kA);
+		super(iA.scale(kA));
 	}
-
-	/**
-	 * getter for the intensity
-	 * 
-	 * @return the intensity
-	 */
-	public Color getIntensity() {
-		return intensity;
-	}
-
 }
