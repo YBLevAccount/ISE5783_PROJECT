@@ -68,10 +68,29 @@ public class RayTracerBasic extends RayTracerBase {
 		return color;
 	}
 
+	/**
+	 * calculates the diffusive light part of the object
+	 * 
+	 * @param material the material of the object
+	 * @param cosAngle the cosine of the angle between the light and the normal to
+	 *                 the object
+	 * @return the diffusive light color
+	 */
 	private Double3 calcDiffusive(Material material, double cosAngle) {
 		return material.kD.scale(cosAngle > 0 ? cosAngle : -cosAngle);
 	}
 
+	/**
+	 * calculates the specular light part of the object
+	 * 
+	 * @param material the material of the object
+	 * @param normal   the normal to the object
+	 * @param lightDir the direction of the light
+	 * @param cosAngle the cosine of the angle between the light and the normal to
+	 *                 the object
+	 * @param rayDir   the direction the camera is pointed to
+	 * @return
+	 */
 	private Double3 calcSpecular(Material material, Vector normal, Vector lightDir, double cosAngle, Vector rayDir) {
 		Vector r = lightDir.subtract(normal.scale(2 * cosAngle));
 		double coefficient = -rayDir.dotProduct(r);

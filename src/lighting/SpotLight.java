@@ -10,6 +10,7 @@ import primitives.*;
  */
 public class SpotLight extends PointLight {
 	private Vector direction;
+	private double sinMaxAngle = 0;
 
 	/**
 	 * construct SpotLight using color, position, and direction vector
@@ -26,7 +27,7 @@ public class SpotLight extends PointLight {
 	@Override
 	public Color getIntensity(Point p) {
 		double dotProduct = Util.alignZero(direction.dotProduct(getL(p)));
-		return super.getIntensity().scale(dotProduct > 0 ? dotProduct : 0);
+		return super.getIntensity().scale(dotProduct > sinMaxAngle ? dotProduct : 0);
 	}
 
 	@Override
@@ -35,11 +36,13 @@ public class SpotLight extends PointLight {
 	}
 
 	/**
+	 * narrows the beam of the ray
 	 * 
-	 * @param angle
-	 * @return
+	 * @param angle the angle to limit the ray
+	 * @return this object
 	 */
 	public SpotLight setNarrowBeam(double angle) {
-		throw new UnsupportedOperationException("not implemented yet");
+		sinMaxAngle = Math.sin(angle * Math.PI / 180d);
+		return this;
 	}
 }
