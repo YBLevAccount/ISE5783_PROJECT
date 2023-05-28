@@ -55,12 +55,4 @@ class CameraTest {
 				badRay);
 
 	}
-	/**
-	 * Test method for {@link renderer.Camera#findVPCenter()}.
-	 */
-	@Test
-	void testsFindVPCenter() {
-		
-		
-	}
 }

@@ -177,6 +177,7 @@ public class Camera {
 
 	/**
 	 * this function checks that all the arguments are given
+	 * 
 	 * @return this object
 	 * 
 	 * @throws MissingResourceException if some resources are missing
@@ -237,35 +238,53 @@ public class Camera {
 	}
 
 	/**
-	 * changes the position of the camera
+	 * create a camera from a given point and a target point using orientation
 	 * 
-	 * @param newPosition
+	 * @param position the position of the camera
+	 * @param target   the target of the camera
 	 * @return this object
-	 * @throws IllegalArgumentException if the new position is in the center of the
-	 *                                  scene
 	 */
-	public Camera changePosition(Point newPosition) {
-		Point pCenter = findVPCenter();
-		double newDistance = newPosition.distance(pCenter);
-		if (Util.isZero(newDistance))
-			throw new IllegalArgumentException("New Position Can't Be the Center of the Scene");
-		Vector newVTo = pCenter.subtract(newPosition).normalize();
-		distance = newDistance;
-		position = newPosition;
-		if (newVTo.equals(vUp)) {
-			vUp = vTo.scale(-1);
-			vTo = newVTo;
-			return this;
+	public Camera(Point position, Point target) {
+		this.position = position;
+		vTo = target.subtract(position).normalize();
+		Vector g = new Vector(0, 0, -1);
+		if (vTo.equals(g) || vTo.equals(g.scale(-1))) { // in that case random values for vRight and vUp
+			vRight = new Vector(1, 0, 0);
+			vUp = new Vector(0, 1, 0);
+			return;
 		}
-		if (newVTo.equals(vUp.scale(-1))) {
-			vUp = vTo;
-			vTo = newVTo;
-			return this;
-		}
-		
-		vTo = newVTo;
-		vRight = vTo.crossProduct(vUp).normalize();
+		vRight = vTo.crossProduct(g).normalize();
 		vUp = vRight.crossProduct(vTo);
+	}
+
+	/**
+	 * rotate the camera counterclockwise by a given angle
+	 * 
+	 * @param angle the angle to rotate
+	 * @return this object
+	 */
+	public Camera rotate(double angle) {
+		double cosAngle = Util.alignZero(Math.cos(angle * Math.PI / 180));
+		double sinAngle = 0;
+		Vector newVRight;
+		if (cosAngle == 0) {
+			sinAngle = Util.isZero(angle - 90) ? 1.d : -1.d;
+			newVRight = vUp.scale(-sinAngle);
+			vUp = vRight.scale(sinAngle);
+			vRight = newVRight;
+			return this;
+		}
+		sinAngle = Util.alignZero(Math.sin(angle * Math.PI / 180));
+		if (sinAngle == 0) {
+			newVRight = vUp.scale(cosAngle);
+			vUp = vRight.scale(cosAngle);
+			vRight = newVRight;
+			return this;
+		}
+		newVRight = vUp.scale(-sinAngle).add(vRight.scale(cosAngle));
+		vUp = vUp.scale(cosAngle).add(vRight.scale(sinAngle));
+		vRight = newVRight;
 		return this;
 	}
+
 }
