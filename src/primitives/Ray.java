@@ -11,7 +11,7 @@ import geometries.Intersectable.GeoPoint;
  *
  */
 public class Ray {
-
+	private static final double DELTA = 0.1;
 	private final Point p0;
 	private final Vector dir;
 
@@ -24,6 +24,16 @@ public class Ray {
 	public Ray(Point p0, Vector dir) {
 		this.p0 = p0;
 		this.dir = dir.normalize();
+	}
+
+	public Ray(Vector normal, Point point, Vector direction) {
+		this.dir = direction.normalize();
+		double dotProduct = this.dir.dotProduct(normal);
+		if (Util.isZero(dotProduct))
+			this.p0 = point;
+		else
+			this.p0 = point.add(normal.scale(Util.alignZero(dotProduct) < 0 ? -DELTA : DELTA));
+
 	}
 
 	/**
@@ -80,8 +90,10 @@ public class Ray {
 		return points == null || points.isEmpty() ? null
 				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
 	}
+
 	/**
 	 * finds the closest geoPoint to a given geoPoint
+	 * 
 	 * @param geoPoints a list of geoPoints
 	 * @return the closest geoPoint
 	 */
