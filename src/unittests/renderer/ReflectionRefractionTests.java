@@ -2,11 +2,14 @@ package unittests.renderer;
 
 import static java.awt.Color.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
+import lighting.PointLight;
 import lighting.SpotLight;
 import primitives.*;
 import renderer.*;
@@ -99,6 +102,30 @@ public class ReflectionRefractionTests {
 		ImageWriter imageWriter = new ImageWriter("refractionShadow", 600, 600);
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage();
+	}
+	
+	@Test
+	public void MultiObjectTest() {
+		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(200, 200).setVPDistance(1000) //
+				.setRayTracer(new RayTracerBasic(scene));
+		scene.setAmbientLight(new AmbientLight(new Color(YELLOW), 0.45));
+		Point a = new Point(0, 0, -100), b = new Point(100, 100, 0), c = new Point(-100, 100, 0),
+				d = new Point(0, -100, 0);
+		Material mirror = new Material().setKr(0.1).setKd(0.5).setKs(0.8).setShininess(3);
+		scene.geometries.add(
+				new Sphere(Point.ZERO, 70).setMaterial(new Material().setKd(0.4).setKs(0.001).setKt(0.2))
+						.setEmission(new Color(200, 200, 200)),
+				new Triangle(a, b, c).setMaterial(mirror).setEmission(new Color(BLUE)),
+				new Triangle(a, b, d).setMaterial(mirror).setEmission(new Color(RED)),
+				new Triangle(a, c, d).setMaterial(mirror).setEmission(new Color(GREEN)));
+		scene.lights.addAll(0, List.of(new PointLight(new Color(127, 80, 127), Point.ZERO)
+				.setKl(0.0007).setKq(0.0000007),
+				new SpotLight(new Color(200, 100, 50), new Point(100, 0, 0), new Vector(0, -0.15, -1))
+				.setKl(0.006).setKq(0.00006)));
+		camera.setImageWriter(new ImageWriter("multiObjectShadowTest", 600, 600)) //
 				.renderImage() //
 				.writeToImage();
 	}

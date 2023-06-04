@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class RayTracerBasic extends RayTracerBase {
 
-	private static final int MAX_CALC_COLOR_LEVEL = 10;
+	private static final int MAX_CALC_COLOR_LEVEL = 8;
 	private static final double MIN_CALC_COLOR_K = 0.001;
 
 	/**
@@ -60,7 +60,7 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
-	 * recursively calculates the effects of other object in the scene in a specific
+	 * calculates the effects of other object in the scene in a specific
 	 * point
 	 * 
 	 * @param gp    the specific point and its geometry
@@ -77,6 +77,14 @@ public class RayTracerBasic extends RayTracerBase {
 				.add(calcColorGlobalEffect(refractionRay(n, gp.point, v), level, k, material.kT));
 	}
 
+	/**
+	 * calculates the effect of specific global part of the system 
+	 * @param ray the ray to trace
+	 * @param level of the recursion
+	 * @param k the recursion coefficient 
+	 * @param kx the attenuation of the specific part 
+	 * @return the calculated color
+	 */
 	private Color calcColorGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
 		Double3 kkx = k.product(kx);
 		if (kkx.lowerThan(MIN_CALC_COLOR_K))
@@ -144,9 +152,9 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Double3 calcSpecular(Material material, Vector normal, Vector lightDir, double cosAngle, Vector rayDir) {
 		Vector r = lightDir.subtract(normal.scale(2 * cosAngle));
-		double coefficient = -rayDir.dotProduct(r);
+		double coefficient = Util.alignZero(-rayDir.dotProduct(r));
 		coefficient = coefficient > 0 ? coefficient : 0;
-		return material.kS.scale(Math.pow(coefficient, material.nShininess));
+		return material.kS.scale(Util.alignZero(Math.pow(coefficient, material.nShininess)));
 	}
 
 	/**

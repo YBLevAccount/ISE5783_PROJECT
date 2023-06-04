@@ -29,11 +29,6 @@ public class SpotLight extends PointLight {
 		return super.getIntensity().scale(dotProduct > 0 ? Math.pow(dotProduct, narrowness) : 0);
 	}
 
-	@Override
-	public Vector getL(Point p) {
-		return super.getL(p);
-	}
-
 	/**
 	 * narrows the beam of the ray
 	 * 
