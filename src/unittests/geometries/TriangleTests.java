@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import geometries.*;
+import geometries.Intersectable.GeoPoint;
 import primitives.*;
 
 /**
@@ -89,4 +90,24 @@ class TriangleTests {
 		assertNull(result, "Wrong number of points");
 	}
 
+	/**
+	 * tests {@link geometries.Triangle#findGeoIntersections(Point, double)}
+	 */
+	@Test
+	void testFindGeoIntersectionsWithDistance() {
+		Triangle triangle = new Triangle(new Point(1, 0, 0), new Point(-2, 0, -2), new Point(0, 0, 2));
+		Ray ray = new Ray(new Point(0, 2, 0), new Vector(0, -1, 0));
+		// ================= Equivalence Partitions Tests ===========================
+		// TC01: the triangle is not too far
+		List<GeoPoint> result = triangle.findGeoIntersections(ray, 3);
+		assertEquals(1, result.size());
+		// TC02: the triangle is too far
+		result = triangle.findGeoIntersections(ray, 1);
+		assertNull(result);
+		// ================= BVA Tests ===========================
+		// TC03: the intersection is exactly at the max distance (0 points)
+		result = triangle.findGeoIntersections(ray, 2);
+		assertNull(result);
+
+	}
 }
