@@ -5,6 +5,7 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -15,7 +16,7 @@ import primitives.Vector;
  */
 public class PointLight extends Light implements LightSource {
 	private final Point position;
-	double kC = 1, kL = 0, kQ = 0;
+	double kC = 1d, kL = 0d, kQ = 0d;
 
 	/**
 	 * getter for kC
@@ -63,7 +64,7 @@ public class PointLight extends Light implements LightSource {
 
 	@Override
 	public Color getIntensity(Point p) {
-		double d = position.distance(p);
+		double d = Util.alignZero(getDistance(p));
 		return super.getIntensity().scale(1d / (kC + kL * d + kQ * d * d));
 	}
 
