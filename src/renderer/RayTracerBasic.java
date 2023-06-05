@@ -52,7 +52,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param ray   the ray of the intersection
 	 * @param level the level of recursion we're in
 	 * @param k     the current coefficient at our level of recursion
-	 * @return the calculated color
+	 * @return the calculated color 
 	 */
 	private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
 		Color color = calcLocalEffects(gp, ray, k);
@@ -152,9 +152,9 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Double3 calcSpecular(Material material, Vector normal, Vector lightDir, double cosAngle, Vector rayDir) {
 		Vector r = lightDir.subtract(normal.scale(2 * cosAngle));
-		double coefficient = Util.alignZero(-rayDir.dotProduct(r));
-		coefficient = coefficient > 0 ? coefficient : 0;
-		return material.kS.scale(Util.alignZero(Math.pow(coefficient, material.nShininess)));
+		double coefficient = Util.alignZero(rayDir.dotProduct(r));
+		return coefficient < 0 ? Double3.ZERO :
+				material.kS.scale(Math.pow(coefficient, material.nShininess));
 	}
 
 	/**
