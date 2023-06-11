@@ -28,6 +28,7 @@ public abstract class Intersectable {
 	 * @param ray the given ray
 	 * @return the point and its geometry, null if there is no such point
 	 */
+
 	public final GeoPoint findClosestIntersection(Ray ray) {
 		List<GeoPoint> intersections = findGeoIntersections(ray);
 		return intersections == null ? null : ray.findClosestGeoPoint(intersections);
@@ -40,15 +41,14 @@ public abstract class Intersectable {
 	 * @return list of intersection points
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray) {
-		return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+		return findGeoIntersectionsHelper(ray, Double.POSITIVE_INFINITY);
 	}
 
 	/**
-	 * find all GeoPoints that intersect with a ray while ignoring the points that
-	 * are further than a given distance
+	 * find all GeoPoints that intersect with a ray limited by max distance
 	 * 
 	 * @param ray         to find intersections with
-	 * @param maxDistance the given distane
+	 * @param maxDistance the given distance
 	 * @return list of intersection points
 	 */
 	public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {

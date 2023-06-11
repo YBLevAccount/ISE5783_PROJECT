@@ -2,6 +2,7 @@ package renderer;
 
 import java.util.MissingResourceException;
 
+import geometries.*;
 import primitives.*;
 
 /**
@@ -17,8 +18,8 @@ public class Camera {
 	private double height;
 	private double width;
 	private double distance;
-	private ImageWriter imageWriter;
-	private RayTracerBase rayTracer;
+	protected ImageWriter imageWriter;
+	protected RayTracerBase rayTracer;
 
 	/**
 	 * finds the center of the view plane
@@ -115,11 +116,30 @@ public class Camera {
 	}
 
 	/**
+	 * getter for the number of pixels on the x axis
+	 * 
+	 * @return the number of pixels on the x axis
+	 */
+	public int getNX() {
+		return imageWriter.getNX();
+	}
+
+	/**
+	 * getter for the number of pixels on the y axis
+	 * 
+	 * @return the number of pixels on the y axis
+	 */
+	public int getNY() {
+		return imageWriter.getNY();
+	}
+
+	/**
 	 * a constructor that sets all three vector using vTo and vUp. vRight will be
 	 * calculated as the cross product of vTo and vUp
 	 * 
-	 * @param vTo the first vector
-	 * @param vUp the second vector
+	 * @param position the position of the camera
+	 * @param vTo      the first vector
+	 * @param vUp      the second vector
 	 * @throws IllegalArgumentException when the vectors are not orthogonal
 	 */
 	public Camera(Point position, Vector vTo, Vector vUp) {
@@ -166,12 +186,8 @@ public class Camera {
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
 		Point pIJ = findVPCenter(); // pCenter
-		double xJ = Util.alignZero((j - (nX - 1) / 2d) * (width / nX));
-		if (xJ != 0)
-			pIJ = pIJ.add(vRight.scale(xJ));
-		double yI = Util.alignZero(-(i - (nY - 1) / 2d) * (height / nY));
-		if (yI != 0)
-			pIJ = pIJ.add(vUp.scale(yI));
+		UniformRectangleGrid vp = new UniformRectangleGrid(findVPCenter(), vUp, vRight, width, height);
+		pIJ = vp.calculateTargetPoint(nX, nY, j, i);
 		return new Ray(position, pIJ.subtract(position));
 
 	}
@@ -235,7 +251,8 @@ public class Camera {
 	 * @param j the column index of pixel
 	 * @param i the row index of pixel
 	 */
-	private void castRay(int nX, int nY, int j, int i) {
+
+	protected void castRay(int nX, int nY, int j, int i) {
 		imageWriter.writePixel(j, i, rayTracer.traceRay(constructRay(nX, nY, j, i)));
 	}
 
