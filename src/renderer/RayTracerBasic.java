@@ -30,9 +30,10 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	@Override
-	public Color traceRay(Ray ray) {
-		GeoPoint intersectionPoint = scene.geometries.findClosestIntersection(ray);
-		return (intersectionPoint == null) ? scene.background : calcColor(intersectionPoint, ray);
+	public Color traceRay(Ray ray, double maxDistance) {
+		GeoPoint intersectionPoint = scene.geometries.findClosestIntersection(ray, maxDistance);
+		Color backgroundColor = (maxDistance == Double.POSITIVE_INFINITY) ? scene.background : null;
+		return (intersectionPoint == null) ? backgroundColor : calcColor(intersectionPoint, ray);
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param ray   the ray of the intersection
 	 * @param level the level of recursion we're in
 	 * @param k     the current coefficient at our level of recursion
-	 * @return the calculated color 
+	 * @return the calculated color
 	 */
 	private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
 		Color color = calcLocalEffects(gp, ray, k);
@@ -60,8 +61,7 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
-	 * calculates the effects of other object in the scene in a specific
-	 * point
+	 * calculates the effects of other object in the scene in a specific point
 	 * 
 	 * @param gp    the specific point and its geometry
 	 * @param ray   the intersection ray
@@ -78,11 +78,12 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
-	 * calculates the effect of specific global part of the system 
-	 * @param ray the ray to trace
+	 * calculates the effect of specific global part of the system
+	 * 
+	 * @param ray   the ray to trace
 	 * @param level of the recursion
-	 * @param k the recursion coefficient 
-	 * @param kx the attenuation of the specific part 
+	 * @param k     the recursion coefficient
+	 * @param kx    the attenuation of the specific part
 	 * @return the calculated color
 	 */
 	private Color calcColorGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
@@ -153,8 +154,7 @@ public class RayTracerBasic extends RayTracerBase {
 	private Double3 calcSpecular(Material material, Vector normal, Vector lightDir, double cosAngle, Vector rayDir) {
 		Vector r = lightDir.subtract(normal.scale(2 * cosAngle));
 		double coefficient = Util.alignZero(rayDir.dotProduct(r));
-		return coefficient < 0 ? Double3.ZERO :
-				material.kS.scale(Math.pow(coefficient, material.nShininess));
+		return coefficient < 0 ? Double3.ZERO : material.kS.scale(Math.pow(coefficient, material.nShininess));
 	}
 
 	/**

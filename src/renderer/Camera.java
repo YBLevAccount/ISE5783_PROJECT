@@ -2,6 +2,7 @@ package renderer;
 
 import java.util.MissingResourceException;
 
+import geometries.*;
 import primitives.*;
 
 /**
@@ -14,7 +15,7 @@ public class Camera {
 	private Vector vUp, vTo, vRight;
 	private double height, width, distance;
 	private ImageWriter imageWriter;
-	private RayTracerBase rayTracer;
+	protected RayTracerBase rayTracer;
 
 	/**
 	 * finds the center of the view plane
@@ -109,15 +110,19 @@ public class Camera {
 	public double getDistance() {
 		return distance;
 	}
+
 	/**
 	 * getter for the number of pixels on the x axis
+	 * 
 	 * @return the number of pixels on the x axis
 	 */
 	public int getNX() {
 		return imageWriter.getNX();
 	}
+
 	/**
 	 * getter for the number of pixels on the y axis
+	 * 
 	 * @return the number of pixels on the y axis
 	 */
 	public int getNY() {
@@ -129,8 +134,8 @@ public class Camera {
 	 * calculated as the cross product of vTo and vUp
 	 * 
 	 * @param position the position of the camera
-	 * @param vTo the first vector
-	 * @param vUp the second vector
+	 * @param vTo      the first vector
+	 * @param vUp      the second vector
 	 * @throws IllegalArgumentException when the vectors are not orthogonal
 	 */
 	public Camera(Point position, Vector vTo, Vector vUp) {
@@ -177,12 +182,8 @@ public class Camera {
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
 		Point pIJ = findVPCenter(); // pCenter
-		double xJ = Util.alignZero((j - (nX - 1) / 2d) * (width / nX));
-		if (xJ != 0)
-			pIJ = pIJ.add(vRight.scale(xJ));
-		double yI = Util.alignZero(-(i - (nY - 1) / 2d) * (height / nY));
-		if (yI != 0)
-			pIJ = pIJ.add(vUp.scale(yI));
+		UniformRectangleGrid vp = new UniformRectangleGrid(findVPCenter(), vUp, vRight, width, height);
+		pIJ = vp.calculateTargetPoint(nX, nY, j, i);
 		return new Ray(position, pIJ.subtract(position));
 
 	}
@@ -270,7 +271,7 @@ public class Camera {
 	}
 
 	/**
-	 * rotate the camera counterclockwise by a given angle
+	 * rotate the camera clockwise by a given angle
 	 * 
 	 * @param angle the angle to rotate
 	 * @return this object

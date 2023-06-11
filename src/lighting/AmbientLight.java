@@ -1,6 +1,3 @@
-/**
- * 
- */
 package lighting;
 
 import primitives.Color;
