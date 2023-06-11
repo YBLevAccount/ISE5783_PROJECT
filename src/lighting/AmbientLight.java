@@ -1,6 +1,3 @@
-/**
- * 
- */
 package lighting;
 
 import primitives.Color;
@@ -13,6 +10,9 @@ import primitives.Double3;
  *
  */
 public class AmbientLight extends Light {
+	/**
+	 * No Ambient light value
+	 */
 	public static final AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
 
 	/**

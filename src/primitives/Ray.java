@@ -3,6 +3,7 @@ package primitives;
 import java.util.List;
 
 import geometries.Intersectable.GeoPoint;
+import static primitives.Util.*;
 
 /**
  * This class represents a ray using starting point and direction vector
@@ -26,14 +27,16 @@ public class Ray {
 		this.dir = dir.normalize();
 	}
 
+	/**
+	 * create a ray that starts at p0 in a direction and move it due to noraml
+	 * @param normal to move by
+	 * @param point the starting point before moving
+	 * @param direction the direction of the ray
+	 */
 	public Ray(Vector normal, Point point, Vector direction) {
 		this.dir = direction.normalize();
-		double dotProduct = this.dir.dotProduct(normal);
-		if (Util.isZero(dotProduct))
-			this.p0 = point;
-		else
-			this.p0 = point.add(normal.scale(Util.alignZero(dotProduct) < 0 ? -DELTA : DELTA));
-
+		double dotProduct = alignZero(this.dir.dotProduct(normal));
+		this.p0 = dotProduct == 0 ? point : point.add(normal.scale(dotProduct < 0 ? -DELTA : DELTA));
 	}
 
 	/**
@@ -75,9 +78,7 @@ public class Ray {
 	 * @return the point
 	 */
 	public Point getPoint(double t) {
-		if (Util.isZero(t))
-			return p0;
-		return p0.add(dir.scale(t));
+		return isZero(t) ? p0 : p0.add(dir.scale(t));
 	}
 
 	/**
@@ -98,10 +99,10 @@ public class Ray {
 	 * @return the closest geoPoint
 	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
-		if (geoPoints == null || geoPoints.size() == 0)
+		if (geoPoints == null)
 			return null;
-		GeoPoint closestGeoPoint = geoPoints.get(0);
-		double minDistance = p0.distanceSquared(closestGeoPoint.point);
+		GeoPoint closestGeoPoint = null;
+		double minDistance = Double.POSITIVE_INFINITY;
 		for (GeoPoint geoPoint : geoPoints) {
 			double currentDistance = p0.distanceSquared(geoPoint.point);
 			if (currentDistance < minDistance) {

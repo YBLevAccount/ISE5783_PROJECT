@@ -25,12 +25,13 @@ public class ImageWriter {
 
 	private BufferedImage image;
 	private String imageName;
-	
+
 	private Logger logger = Logger.getLogger("ImageWriter");
 
 	// ***************** Constructors ********************** //
 	/**
 	 * Image Writer constructor accepting image name and View Plane parameters,
+	 * 
 	 * @param imageName the name of jpeg file
 	 * @param nX        amount of pixels by Width
 	 * @param nY        amount of pixels by height
@@ -91,4 +92,3 @@ public class ImageWriter {
 	}
 
 }
-

@@ -1,6 +1,7 @@
 package lighting;
 
 import primitives.*;
+import static primitives.Util.*;
 
 /**
  * light that starts at given point and is strong in one direction
@@ -9,8 +10,9 @@ import primitives.*;
  *
  */
 public class SpotLight extends PointLight {
-	private Vector direction;
+	private final Vector direction;
 	private int narrowness = 1;
+
 	/**
 	 * construct SpotLight using color, position, and direction vector
 	 * 
@@ -25,8 +27,8 @@ public class SpotLight extends PointLight {
 
 	@Override
 	public Color getIntensity(Point p) {
-		double dotProduct = Util.alignZero(direction.dotProduct(getL(p)));
-		return super.getIntensity(p).scale(dotProduct > 0 ? Math.pow(dotProduct, narrowness) : 0);
+		double dotProduct = alignZero(direction.dotProduct(getL(p)));
+		return dotProduct <= 0 ? Color.BLACK : super.getIntensity(p).scale(Math.pow(dotProduct, narrowness));
 	}
 
 	/**

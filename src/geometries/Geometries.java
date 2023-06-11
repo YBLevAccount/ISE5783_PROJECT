@@ -12,13 +12,12 @@ import primitives.Ray;
  */
 public class Geometries extends Intersectable {
 
-	private List<Intersectable> shapes;
+	private List<Intersectable> shapes = new LinkedList<>();
 
 	/**
 	 * default constructor
 	 */
 	public Geometries() {
-		shapes = new LinkedList<>();
 	}
 
 	/**
@@ -27,7 +26,7 @@ public class Geometries extends Intersectable {
 	 * @param geometries list of Intersectables the shape will contain
 	 */
 	public Geometries(Intersectable... geometries) {
-		shapes = List.of(geometries);
+		add(geometries);
 	}
 
 	/**
@@ -40,10 +39,10 @@ public class Geometries extends Intersectable {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		LinkedList<GeoPoint> intersections = null;
 		for (Intersectable shape : shapes) {
-			List<GeoPoint> shapeIntersections = shape.findGeoIntersectionsHelper(ray, maxDistance);
+			List<GeoPoint> shapeIntersections = shape.findGeoIntersections(ray, maxDistance);
 			if (shapeIntersections != null) {
 				if (intersections == null)
 					intersections = new LinkedList<>();

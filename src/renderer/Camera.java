@@ -1,6 +1,3 @@
-/**
- * 
- */
 package renderer;
 
 import java.util.MissingResourceException;
@@ -13,9 +10,13 @@ import primitives.*;
  * @author Shulman and Yonatan
  */
 public class Camera {
-	private Point position;
-	private Vector vUp, vTo, vRight;
-	private double height, width, distance;
+	private final Point position;
+	private Vector vUp;
+	private Vector vTo;
+	private Vector vRight;
+	private double height;
+	private double width;
+	private double distance;
 	private ImageWriter imageWriter;
 	private RayTracerBase rayTracer;
 
@@ -191,7 +192,7 @@ public class Camera {
 		int nX = imageWriter.getNX();
 		for (int j = 0; j < nY; ++j)
 			for (int i = 0; i < nX; ++i)
-				imageWriter.writePixel(i, j, castRay(i, j));
+				castRay(nX, nY, i, j);
 		return this;
 	}
 
@@ -229,12 +230,13 @@ public class Camera {
 	/**
 	 * finds the color of a pixel
 	 * 
+	 * @param nX number of pixels in row
+	 * @param nY number of pixels in column
 	 * @param j the column index of pixel
 	 * @param i the row index of pixel
-	 * @return the calculated color of the pixel
 	 */
-	private Color castRay(int j, int i) {
-		return rayTracer.traceRay(constructRay(imageWriter.getNX(), imageWriter.getNY(), j, i));
+	private void castRay(int nX, int nY, int j, int i) {
+		imageWriter.writePixel(j, i, rayTracer.traceRay(constructRay(nX, nY, j, i)));
 	}
 
 	/**
@@ -258,7 +260,7 @@ public class Camera {
 	}
 
 	/**
-	 * rotate the camera counterclockwise by a given angle
+	 * rotate the camera clockwise by a given angle
 	 * 
 	 * @param angle the angle to rotate
 	 * @return this object

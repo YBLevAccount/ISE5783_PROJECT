@@ -125,7 +125,7 @@ public class ReflectionRefractionTests {
 				.setKl(0.0007).setKq(0.0000007),
 				new SpotLight(new Color(200, 100, 50), new Point(100, 0, 0), new Vector(0, -0.15, -1))
 				.setKl(0.006).setKq(0.00006)));
-		camera.setImageWriter(new ImageWriter("multiObjectShadowTest", 600, 600)) //
+		camera.setImageWriter(new ImageWriter("multiObjectReflecttionAndRefractionTest", 600, 600)) //
 				.renderImage() //
 				.writeToImage();
 	}
