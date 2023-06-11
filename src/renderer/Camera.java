@@ -1,6 +1,3 @@
-/**
- * 
- */
 package renderer;
 
 import java.util.MissingResourceException;
@@ -112,11 +109,26 @@ public class Camera {
 	public double getDistance() {
 		return distance;
 	}
+	/**
+	 * getter for the number of pixels on the x axis
+	 * @return the number of pixels on the x axis
+	 */
+	public int getNX() {
+		return imageWriter.getNX();
+	}
+	/**
+	 * getter for the number of pixels on the y axis
+	 * @return the number of pixels on the y axis
+	 */
+	public int getNY() {
+		return imageWriter.getNY();
+	}
 
 	/**
 	 * a constructor that sets all three vector using vTo and vUp. vRight will be
 	 * calculated as the cross product of vTo and vUp
 	 * 
+	 * @param position the position of the camera
 	 * @param vTo the first vector
 	 * @param vUp the second vector
 	 * @throws IllegalArgumentException when the vectors are not orthogonal
@@ -233,7 +245,7 @@ public class Camera {
 	 * @param i the row index of pixel
 	 * @return the calculated color of the pixel
 	 */
-	private Color castRay(int j, int i) {
+	protected Color castRay(int j, int i) {
 		return rayTracer.traceRay(constructRay(imageWriter.getNX(), imageWriter.getNY(), j, i));
 	}
 
