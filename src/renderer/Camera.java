@@ -1,9 +1,11 @@
 package renderer;
 
+import java.util.List;
 import java.util.MissingResourceException;
 
 import geometries.*;
 import primitives.*;
+import static primitives.Util.*;
 
 /**
  * represents the camera that creates the rays
@@ -18,8 +20,11 @@ public class Camera {
 	private double height;
 	private double width;
 	private double distance;
-	protected ImageWriter imageWriter;
-	protected RayTracerBase rayTracer;
+	private ImageWriter imageWriter;
+	private RayTracerBase rayTracer;
+	private double focalDistance;
+	private double apertureLength = 0;
+	private int rayNum = 81; // default value
 
 	/**
 	 * finds the center of the view plane
@@ -143,7 +148,7 @@ public class Camera {
 	 * @throws IllegalArgumentException when the vectors are not orthogonal
 	 */
 	public Camera(Point position, Vector vTo, Vector vUp) {
-		if (!Util.isZero(vTo.dotProduct(vUp)))
+		if (!isZero(vTo.dotProduct(vUp)))
 			throw new IllegalArgumentException("Vectors are not orthogonal");
 		this.position = position;
 		this.vTo = vTo.normalize();
@@ -175,6 +180,56 @@ public class Camera {
 		return this;
 	}
 
+	/** getter for the focal distance
+	 * @return the focalDistance
+	 */
+	public double getFocalDistance() {
+		return focalDistance;
+	}
+
+	/**  setter for the focal distance
+	 * @param focalDistance the focalDistance to set
+	 * @return this object
+	 */
+	public Camera setFocalDistance(double focalDistance) {
+		this.focalDistance = focalDistance;
+		return this;
+	}
+
+	/** getter for the aperture length
+	 * @return the aperture length
+	 */
+	public double getApertureLength() {
+		return apertureLength;
+	}
+
+	/**
+	 * setter for aperture length for depth of field 
+	 * @param apertureLength new aperture length
+	 * @return this object
+	 */
+	public Camera setApertureLength(double apertureLength) {
+		// important to align zero here, to avoid using DoF feature when not wanted
+		this.apertureLength = alignZero(apertureLength); 
+		return this;
+	}
+
+	/** getter for number of beams per each pixel
+	 * @return the number of beams
+	 */
+	public int getRayNum() {
+		return rayNum;
+	}
+
+	/** setter for the number of beams per each pixel
+	 * @param rayNum the new number of beams
+	 * @return this object
+	 */
+	public Camera setRayNum(int rayNum) {
+		this.rayNum = rayNum;
+		return this;
+	}
+
 	/**
 	 * constructs a ray through a specific pixel and specific resolution
 	 * 
@@ -201,7 +256,8 @@ public class Camera {
 	 */
 	public Camera renderImage() {
 		if (position == null || vUp == null || vTo == null || vRight == null || height <= 0 || width <= 0
-				|| distance <= 0 || imageWriter == null || rayTracer == null)
+				|| distance <= 0 || imageWriter == null || rayTracer == null || apertureLength < 0
+				|| apertureLength > 0 && (focalDistance <= 0 || rayNum <= 0))
 			throw new MissingResourceException("Arguments Are Missing", "Camera",
 					"Set the Argument That Has Not Been Set");
 		int nY = imageWriter.getNY();
@@ -248,12 +304,27 @@ public class Camera {
 	 * 
 	 * @param nX number of pixels in row
 	 * @param nY number of pixels in column
-	 * @param j the column index of pixel
-	 * @param i the row index of pixel
+	 * @param j  the column index of pixel
+	 * @param i  the row index of pixel
 	 */
 
-	protected void castRay(int nX, int nY, int j, int i) {
-		imageWriter.writePixel(j, i, rayTracer.traceRay(constructRay(nX, nY, j, i)));
+	private void castRay(int nX, int nY, int j, int i) {
+		Ray mainRay = constructRay(nX, nY, j, i);
+		Color totalColor = Color.BLACK;
+		if (isZero(apertureLength)) // means we do not use DoF
+			totalColor = rayTracer.traceRay(mainRay);
+		else {
+			Point focalPoint = mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir()));
+			UniformRectangleGrid targetArea = new UniformRectangleGrid(position, vUp, vRight,
+					apertureLength, apertureLength);
+			List<Point> points = targetArea.generateTargets(rayNum);
+			for (Point point : points) {
+				Ray secondaryRay = new Ray(point, focalPoint.subtract(point));
+				totalColor = totalColor.add(rayTracer.traceRay(secondaryRay));
+			}
+			totalColor = totalColor.scale(1d / points.size());
+		}
+		imageWriter.writePixel(j, i, totalColor);
 	}
 
 	/**
@@ -283,17 +354,17 @@ public class Camera {
 	 * @return this object
 	 */
 	public Camera rotate(double angle) {
-		double cosAngle = Util.alignZero(Math.cos(angle * Math.PI / 180));
+		double cosAngle = alignZero(Math.cos(angle * Math.PI / 180));
 		double sinAngle = 0;
 		Vector newVRight;
 		if (cosAngle == 0) {
-			sinAngle = Util.isZero(angle - 90) ? 1.d : -1.d;
+			sinAngle = isZero(angle - 90) ? 1.d : -1.d;
 			newVRight = vUp.scale(-sinAngle);
 			vUp = vRight.scale(sinAngle);
 			vRight = newVRight;
 			return this;
 		}
-		sinAngle = Util.alignZero(Math.sin(angle * Math.PI / 180));
+		sinAngle = alignZero(Math.sin(angle * Math.PI / 180));
 		if (sinAngle == 0) {
 			newVRight = vUp.scale(cosAngle);
 			vUp = vRight.scale(cosAngle);
