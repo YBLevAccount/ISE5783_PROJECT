@@ -15,7 +15,7 @@ import primitives.*;
 public class DepthOfFieldCamera extends Camera {
 	private double focalDistance;
 	private double a;
-	private static final int rayNum = 9;
+	private static final int rayNum = 81;
 
 	/**
 	 * constructor for depthOfFieldCamera
