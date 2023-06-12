@@ -10,10 +10,25 @@ import primitives.*;
  * @author Shulman and Yonatan
  */
 public abstract class RectangleGrid implements TargetArea {
+	/**
+	 * center of the rectangle
+	 */
 	protected Point center;
+	/**
+	 * vector pointing up
+	 */
 	protected Vector vUp;
+	/**
+	 * vector pointing down
+	 */
 	protected Vector vRight;
+	/**
+	 * the width of the rectangle
+	 */
 	protected double width;
+	/**
+	 * the height of the rectangle
+	 */
 	protected double height;
 
 	/**

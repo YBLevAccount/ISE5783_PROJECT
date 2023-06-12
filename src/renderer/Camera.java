@@ -180,14 +180,18 @@ public class Camera {
 		return this;
 	}
 
-	/** getter for the focal distance
+	/**
+	 * getter for the focal distance
+	 * 
 	 * @return the focalDistance
 	 */
 	public double getFocalDistance() {
 		return focalDistance;
 	}
 
-	/**  setter for the focal distance
+	/**
+	 * setter for the focal distance
+	 * 
 	 * @param focalDistance the focalDistance to set
 	 * @return this object
 	 */
@@ -196,7 +200,9 @@ public class Camera {
 		return this;
 	}
 
-	/** getter for the aperture length
+	/**
+	 * getter for the aperture length
+	 * 
 	 * @return the aperture length
 	 */
 	public double getApertureLength() {
@@ -204,24 +210,29 @@ public class Camera {
 	}
 
 	/**
-	 * setter for aperture length for depth of field 
+	 * setter for aperture length for depth of field
+	 * 
 	 * @param apertureLength new aperture length
 	 * @return this object
 	 */
 	public Camera setApertureLength(double apertureLength) {
 		// important to align zero here, to avoid using DoF feature when not wanted
-		this.apertureLength = alignZero(apertureLength); 
+		this.apertureLength = alignZero(apertureLength);
 		return this;
 	}
 
-	/** getter for number of beams per each pixel
+	/**
+	 * getter for number of beams per each pixel
+	 * 
 	 * @return the number of beams
 	 */
 	public int getRayNum() {
 		return rayNum;
 	}
 
-	/** setter for the number of beams per each pixel
+	/**
+	 * setter for the number of beams per each pixel
+	 * 
 	 * @param rayNum the new number of beams
 	 * @return this object
 	 */
@@ -315,8 +326,8 @@ public class Camera {
 			totalColor = rayTracer.traceRay(mainRay);
 		else {
 			Point focalPoint = mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir()));
-			UniformRectangleGrid targetArea = new UniformRectangleGrid(position, vUp, vRight,
-					apertureLength, apertureLength);
+			UniformRectangleGrid targetArea = new UniformRectangleGrid(position, vUp, vRight, apertureLength,
+					apertureLength);
 			List<Point> points = targetArea.generateTargets(rayNum);
 			for (Point point : points) {
 				Ray secondaryRay = new Ray(point, focalPoint.subtract(point));

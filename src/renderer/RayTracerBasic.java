@@ -152,7 +152,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Double3 calcSpecular(Material material, Vector normal, Vector lightDir, double cosAngle, Vector rayDir) {
 		Vector r = lightDir.subtract(normal.scale(2 * cosAngle));
-		double coefficient = alignZero(rayDir.dotProduct(r));
+		double coefficient = alignZero(-rayDir.dotProduct(r));
 		return coefficient <= 0 ? Double3.ZERO : material.kS.scale(Math.pow(coefficient, material.nShininess));
 	}
 
