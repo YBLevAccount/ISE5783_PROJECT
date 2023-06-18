@@ -321,10 +321,8 @@ public class Camera {
 
 	private void castRay(int nX, int nY, int j, int i) {
 		Ray mainRay = constructRay(nX, nY, j, i);
-		Color totalColor = Color.BLACK;
-		if (isZero(apertureLength)) // means we do not use DoF
-			totalColor = rayTracer.traceRay(mainRay);
-		else {
+		Color totalColor = rayTracer.traceRay(mainRay);;
+		if (!isZero(apertureLength)) {// means we do not use DoF
 			Point focalPoint = mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir()));
 			UniformRectangleGrid targetArea = new UniformRectangleGrid(position, vUp, vRight, apertureLength,
 					apertureLength);
@@ -333,7 +331,7 @@ public class Camera {
 				Ray secondaryRay = new Ray(point, focalPoint.subtract(point));
 				totalColor = totalColor.add(rayTracer.traceRay(secondaryRay));
 			}
-			totalColor = totalColor.scale(1d / points.size());
+			totalColor = totalColor.scale(1d / (points.size() + 1));
 		}
 		imageWriter.writePixel(j, i, totalColor);
 	}
@@ -354,7 +352,7 @@ public class Camera {
 			vUp = new Vector(0, 1, 0);
 			return;
 		}
-		vRight = vTo.crossProduct(g).normalize();
+		vRight = g.crossProduct(vTo).normalize();
 		vUp = vRight.crossProduct(vTo);
 	}
 

@@ -94,7 +94,7 @@ class DoFCameraTests {
 	}
 
 	/**
-	 * tests both cameras on the same image
+	 * tests camera with DoF 
 	 */
 	@Test
 	void depthOfFieldTest() {
@@ -107,6 +107,9 @@ class DoFCameraTests {
 
 	}
 
+	/**
+	 * show regular camera on the same image
+	 */
 	@Test
 	void noDepthOfFieldTest() {
 		setUp();
