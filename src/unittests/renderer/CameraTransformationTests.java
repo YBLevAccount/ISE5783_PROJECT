@@ -75,7 +75,7 @@ class CameraTransformationTests {
 		scene.background = new Color(178, 190, 181);
 
 		Material woodMaterial = new Material().setKd(0.9);
-		Material oneSideMirror = new Material().setKr(0.95).setKt(0.01);
+		Material oneSideMirror = new Material().setKr(0.9).setKt(0.1);
 		Material metal = new Material().setKd(0.4).setKs(0.4).setKr(0.2).setShininess(60);
 		Color woodColor = new Color(133, 94, 66);
 
@@ -104,7 +104,7 @@ class CameraTransformationTests {
 
 		scene.lights.addAll(List.of(
 				// general light
-				//new DirectionalLight(new Color(100, 100, 100), new Vector(0, 0, -1)),
+				new DirectionalLight(new Color(20, 20, 15), new Vector(0, 0, -1)),
 				// strong light in one side
 				new SpotLight(new Color(800, 0, 0), new Point(200, 200, 600), new Vector(0, -0.5, -1)).setKl(0.001)
 						.setKq(0.0001),
@@ -113,7 +113,7 @@ class CameraTransformationTests {
 				new SpotLight(new Color(0, 0, 800), new Point(200, 0, 600), new Vector(-0.1, 0, -1)).setKl(0.003)
 						.setKq(0.0003),
 				// weak light in the other side
-				new PointLight(new Color(0, 0, 0), new Point(600, 0, 300)).setKl(0.005).setKq(0.0005)));
+				new PointLight(new Color(30, 30, 30), new Point(600, 0, 300)).setKl(0.005).setKq(0.0005)));
 
 		tracer = new RayTracerBasic(scene);
 		camera = new Camera(new Point(0, 0, 150), new Vector(1, 0, -0.3), new Vector(0.3, 0, 1)).setVPDistance(280)
@@ -147,6 +147,8 @@ class CameraTransformationTests {
 	 */
 	@Test
 	void testRotation() {
-		fail("Not yet implemented");
+		setUp();
+		ImageWriter imageR = new ImageWriter("TranpositionAfterRotation", 800, 800);
+		camera.rotate(30).setImageWriter(imageR).renderImage().writeToImage();
 	}
 }

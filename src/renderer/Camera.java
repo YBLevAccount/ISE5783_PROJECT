@@ -19,6 +19,7 @@ public class Camera {
 	private Vector vRight;
 	private double height;
 	private double width;
+	private UniformRectangleGrid vp = null;
 	private double distance;
 	private ImageWriter imageWriter;
 	private RayTracerBase rayTracer;
@@ -166,6 +167,7 @@ public class Camera {
 	public Camera setVPSize(double width, double height) {
 		this.width = width;
 		this.height = height;
+		vp = null;
 		return this;
 	}
 
@@ -177,6 +179,7 @@ public class Camera {
 	 */
 	public Camera setVPDistance(double distance) {
 		this.distance = distance;
+		vp = null;
 		return this;
 	}
 
@@ -252,7 +255,8 @@ public class Camera {
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {
 		Point pIJ = findVPCenter(); // pCenter
-		UniformRectangleGrid vp = new UniformRectangleGrid(findVPCenter(), vUp, vRight, width, height);
+		if (vp == null)
+			vp = new UniformRectangleGrid(findVPCenter(), vUp, vRight, width, height);
 		pIJ = vp.calculateTargetPoint(nX, nY, j, i);
 		return new Ray(position, pIJ.subtract(position));
 
@@ -321,8 +325,8 @@ public class Camera {
 
 	private void castRay(int nX, int nY, int j, int i) {
 		Ray mainRay = constructRay(nX, nY, j, i);
-		Color totalColor = rayTracer.traceRay(mainRay);;
-		if (!isZero(apertureLength)) {// means we do not use DoF
+		Color totalColor = rayTracer.traceRay(mainRay);
+		if (!isZero(apertureLength)) {// means we use DoF
 			Point focalPoint = mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir()));
 			UniformRectangleGrid targetArea = new UniformRectangleGrid(position, vUp, vRight, apertureLength,
 					apertureLength);
@@ -363,6 +367,7 @@ public class Camera {
 	 * @return this object
 	 */
 	public Camera rotate(double angle) {
+		vp = null;
 		double cosAngle = alignZero(Math.cos(angle * Math.PI / 180));
 		double sinAngle = 0;
 		Vector newVRight;
@@ -383,6 +388,7 @@ public class Camera {
 		newVRight = vUp.scale(-sinAngle).add(vRight.scale(cosAngle));
 		vUp = vUp.scale(cosAngle).add(vRight.scale(sinAngle));
 		vRight = newVRight;
+
 		return this;
 	}
 

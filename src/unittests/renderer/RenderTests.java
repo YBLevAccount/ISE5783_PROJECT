@@ -97,36 +97,4 @@ public class RenderTests {
 		camera.printGrid(100, new Color(YELLOW));
 		camera.writeToImage();
 	}
-
-	/**
-	 * Test for the target base camera constructor and the rotation of a camera
-	 */
-	@Test
-	public void testTargetBasedConstructor() {
-		Scene scene = new Scene("Test scene")//
-				.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.2))); //
-
-		scene.geometries.add( // center
-				new Sphere(new Point(0, 0, -100), 50),
-				// up left
-				new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100))
-						.setEmission(new Color(GREEN)),
-				// down left
-				new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100), new Point(-100, -100, -100))
-						.setEmission(new Color(RED)),
-				// down right
-				new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))
-						.setEmission(new Color(BLUE)));
-
-		Camera camera = new Camera(new Point(1,1,1), new Point(0, 0, -1))
-				.rotate(60)//
-				.setVPDistance(100) //
-				.setVPSize(500, 500) //
-				.setImageWriter(new ImageWriter("transformation base constructor test", 1000, 1000))
-				.setRayTracer(new RayTracerBasic(scene));
-
-		camera.renderImage();
-		camera.printGrid(100, new Color(WHITE));
-		camera.writeToImage();
-	}
 }
