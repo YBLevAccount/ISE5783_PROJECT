@@ -6,6 +6,7 @@ package unittests.geometries;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import static primitives.Util.*;
 import primitives.*;
 import geometries.*;
 
@@ -50,5 +51,20 @@ class UniformRectangleGridTests {
 		// BV06: 4X4 Side (0,1)
 		assertEquals(new Point(9, -3, 10), urg.calculateTargetPoint(4, 4, 1, 0), badPoint);
 	}
-
+	
+	/**
+	 * tests {@link geometries.UniformRectangleGrid#generateTargets(int)}
+	 */
+	@Test
+	void generateTargetsTest() {
+		Point p0 = new Point(0, 0, 10);
+		UniformRectangleGrid urg = new UniformRectangleGrid(p0, new Vector(1, 0, 0),
+				new Vector(0, 1, 0), 24, 24);
+		var result = urg.generateTargets(100);
+		Vector normal = new Vector(0, 0, 1);
+		for (Point p : result) {
+			Vector v = p.subtract(p0);
+			assertEquals(0, alignZero(v.dotProduct(normal)), "point is not on target area");
+		}
+	}
 }
