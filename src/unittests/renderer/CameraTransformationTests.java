@@ -4,7 +4,6 @@
 package unittests.renderer;
 
 import static java.awt.Color.WHITE;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
