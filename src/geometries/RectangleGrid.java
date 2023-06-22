@@ -96,4 +96,64 @@ public abstract class RectangleGrid implements TargetArea {
 		return this;
 	}
 
+	/**
+	 * getter for the center
+	 * 
+	 * @return the center
+	 */
+	public Point getCenter() {
+		return center;
+	}
+
+	/**
+	 * setter for the center
+	 * 
+	 * @param center the center to set
+	 * @return this object
+	 */
+	public RectangleGrid setCenter(Point center) {
+		this.center = center;
+		return this;
+	}
+
+	/**
+	 * getter for the vector vUp
+	 * 
+	 * @return the vector vUp
+	 */
+	public Vector getVUp() {
+		return vUp;
+	}
+
+	/**
+	 * setter for the vector vUp
+	 * 
+	 * @param vUp the vector vUp to set
+	 * @return this object
+	 */
+	public RectangleGrid setVUp(Vector vUp) {
+		this.vUp = vUp;
+		return this;
+	}
+
+	/**
+	 * getter for the vector vRight
+	 * 
+	 * @return the vector vRight
+	 */
+	public Vector getVRight() {
+		return vUp;
+	}
+
+	/**
+	 * setter for the vector vRight
+	 * 
+	 * @param vRight the vector vRight to set
+	 * @return this object
+	 */
+	public RectangleGrid setVRight(Vector vRight) {
+		this.vRight = vRight;
+		return this;
+	}
+
 }
