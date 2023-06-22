@@ -7,6 +7,8 @@ import geometries.*;
 import primitives.*;
 
 /**
+ * this class represents a ray that can adapt to and divide itself
+ * 
  * @author Shulman and Yonatan
  *
  */
@@ -14,7 +16,6 @@ public class AdaptiveRay {
 	private UniformRectangleGrid targetArea;
 	private Point position;
 	private boolean forward;
-	private int numSplits = 4;
 
 	/**
 	 * constructor for AdaptiveRay
@@ -41,7 +42,7 @@ public class AdaptiveRay {
 		return (forward ? new Ray(position, direction) : new Ray(center, direction.scale(-1)));
 	}
 
-	public List<AdaptiveRay> splitRay() {
+	public List<AdaptiveRay> splitRay(int numSplits) {
 		List<Point> points = targetArea.generateTargets(numSplits);
 		List<AdaptiveRay> adaptiveRays = new LinkedList<>();
 		for (Point point : points)

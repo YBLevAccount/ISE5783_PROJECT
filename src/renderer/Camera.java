@@ -1,6 +1,5 @@
 package renderer;
 
-import java.util.List;
 import java.util.MissingResourceException;
 
 import geometries.*;
@@ -25,7 +24,7 @@ public class Camera {
 	private RayTracerBase rayTracer;
 	private double focalDistance;
 	private double apertureLength = 0;
-	private int rayNum = 81; // default value
+	private AdaptiveSuperSampler adaptiveSuperSampler = new AdaptiveSuperSampler();
 
 	/**
 	 * finds the center of the view plane
@@ -140,6 +139,26 @@ public class Camera {
 	}
 
 	/**
+	 * getter for maxRecursionLevel
+	 * 
+	 * @return the maxRecursionLevel
+	 */
+	public int getMaxRecursionLevel() {
+		return adaptiveSuperSampler.getMaxRecursion();
+	}
+
+	/**
+	 * setter for maxRecursionLevel
+	 * 
+	 * @param maxRecursionLevel the maxRecursionLevel to set
+	 * @return this object
+	 */
+	public Camera setMaxRecursionLevel(int maxRecursionLevel) {
+		adaptiveSuperSampler.setMaxRecursion(maxRecursionLevel);
+		return this;
+	}
+
+	/**
 	 * a constructor that sets all three vector using vTo and vUp. vRight will be
 	 * calculated as the cross product of vTo and vUp
 	 * 
@@ -230,7 +249,7 @@ public class Camera {
 	 * @return the number of beams
 	 */
 	public int getRayNum() {
-		return rayNum;
+		return adaptiveSuperSampler.getRayNum();
 	}
 
 	/**
@@ -240,7 +259,7 @@ public class Camera {
 	 * @return this object
 	 */
 	public Camera setRayNum(int rayNum) {
-		this.rayNum = rayNum;
+		adaptiveSuperSampler.setRayNum(rayNum);
 		return this;
 	}
 
@@ -271,8 +290,9 @@ public class Camera {
 	 */
 	public Camera renderImage() {
 		if (position == null || vUp == null || vTo == null || vRight == null || height <= 0 || width <= 0
-				|| distance <= 0 || imageWriter == null || rayTracer == null || apertureLength < 0
-				|| apertureLength > 0 && (focalDistance <= 0 || rayNum <= 0))
+				|| distance <= 0 || imageWriter == null || rayTracer == null
+				|| (adaptiveSuperSampler.getMaxRecursion() >= 1
+						&& (apertureLength <= 0 || adaptiveSuperSampler.getRayNum() <= 0 || focalDistance <= 0)))
 			throw new MissingResourceException("Arguments Are Missing", "Camera",
 					"Set the Argument That Has Not Been Set");
 		int nY = imageWriter.getNY();
@@ -325,19 +345,17 @@ public class Camera {
 
 	private void castRay(int nX, int nY, int j, int i) {
 		Ray mainRay = constructRay(nX, nY, j, i);
-		Color totalColor = rayTracer.traceRay(mainRay);
-		if (!isZero(apertureLength)) {// means we use DoF
-			Point focalPoint = mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir()));
-			UniformRectangleGrid targetArea = new UniformRectangleGrid(position, vUp, vRight, apertureLength,
-					apertureLength);
-			List<Point> points = targetArea.generateTargets(rayNum);
-			for (Point point : points) {
-				Ray secondaryRay = new Ray(point, focalPoint.subtract(point));
-				totalColor = totalColor.add(rayTracer.traceRay(secondaryRay));
-			}
-			totalColor = totalColor.scale(1d / (points.size() + 1));
-		}
-		imageWriter.writePixel(j, i, totalColor);
+		if (adaptiveSuperSampler.getMaxRecursion() != 0) {
+			imageWriter
+					.writePixel(j, i,
+							adaptiveSuperSampler.calcColor(
+									new AdaptiveRay(
+											new UniformRectangleGrid(position, vUp, vRight, apertureLength,
+													apertureLength),
+											mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir())), false),
+									rayTracer));
+		} else
+			imageWriter.writePixel(j, i, rayTracer.traceRay(mainRay));
 	}
 
 	/**

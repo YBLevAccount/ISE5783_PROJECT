@@ -94,7 +94,7 @@ class DoFCameraTests {
 	}
 
 	/**
-	 * tests camera with DoF 
+	 * tests camera with DoF
 	 */
 	@Test
 	void depthOfFieldTest() {
@@ -102,7 +102,7 @@ class DoFCameraTests {
 
 		ImageWriter imageWriter = new ImageWriter("WithDepthOfFild", 500, 500);
 		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
-		camera.setRayNum(121); // for debug only!!! for real thing use different number
+		camera.setRayNum(16).setMaxRecursionLevel(1); // for debug only!!! for real thing use different number
 		camera.renderImage().writeToImage();
 
 	}
@@ -116,5 +116,15 @@ class DoFCameraTests {
 
 		ImageWriter imageWriter = new ImageWriter("WithoutDepthOfFild", 500, 500);
 		camera.setImageWriter(imageWriter).renderImage().writeToImage();
+	}
+
+	@Test
+	void depthOfFieldWithAdaptiveSuperSamplingTest() {
+		setUp();
+
+		ImageWriter imageWriter = new ImageWriter("WithDepthOfFildAndAdaptiveSuperSampling", 500, 500);
+		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
+		camera.setRayNum(4).setMaxRecursionLevel(2); // for debug only!!! for real thing use different number
+		camera.renderImage().writeToImage();
 	}
 }
