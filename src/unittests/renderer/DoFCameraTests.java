@@ -21,6 +21,9 @@ class DoFCameraTests {
 	private Camera camera;
 	private Scene scene;
 	private RayTracerBasic tracer;
+	
+	private int numThreads = 3;
+	
 
 	/**
 	 * create a pyramid using base, size and direction vectors
@@ -102,7 +105,7 @@ class DoFCameraTests {
 
 		ImageWriter imageWriter = new ImageWriter("WithDepthOfFild", 500, 500);
 		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
-		camera.setRayNum(16).setMaxRecursionLevel(1); // for debug only!!! for real thing use different number
+		camera.setRayNum(100).setMaxRecursionLevel(1); // for debug only!!! for real thing use different number
 		camera.renderImage().writeToImage();
 
 	}
@@ -118,13 +121,40 @@ class DoFCameraTests {
 		camera.setImageWriter(imageWriter).renderImage().writeToImage();
 	}
 
+	/**
+	 * DoF with adaptive super sampling test
+	 */
 	@Test
 	void depthOfFieldWithAdaptiveSuperSamplingTest() {
 		setUp();
 
 		ImageWriter imageWriter = new ImageWriter("WithDepthOfFildAndAdaptiveSuperSampling", 500, 500);
 		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
-		camera.setRayNum(4).setMaxRecursionLevel(2); // for debug only!!! for real thing use different number
+		camera.setRayNum(16).setMaxRecursionLevel(2); // for debug only!!! for real thing use different number
+		camera.renderImage().writeToImage();
+	}
+	
+	/**
+	 * tests multi threading
+	 */
+	@Test 
+	void MultiThreadTest() {
+		setUp();
+
+		ImageWriter imageWriter = new ImageWriter("WithMultiThread", 500, 500);
+		camera.setThreadNum(numThreads).setImageWriter(imageWriter).renderImage().writeToImage();
+	}
+	
+	/**
+	 * tests every single image time/quality improve
+	 */
+	@Test 
+	void testAll() {
+		setUp();
+
+		ImageWriter imageWriter = new ImageWriter("AllImageImporvements", 500, 500);
+		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
+		camera.setRayNum(16).setMaxRecursionLevel(2).setThreadNum(numThreads); // for debug only!!! for real thing use different number
 		camera.renderImage().writeToImage();
 	}
 }

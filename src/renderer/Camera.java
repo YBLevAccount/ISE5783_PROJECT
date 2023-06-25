@@ -4,7 +4,11 @@ import java.util.MissingResourceException;
 
 import geometries.*;
 import primitives.*;
+import renderer.PixelManager.Pixel;
+
 import static primitives.Util.*;
+
+import java.util.LinkedList;
 
 /**
  * represents the camera that creates the rays
@@ -24,7 +28,18 @@ public class Camera {
 	private RayTracerBase rayTracer;
 	private double focalDistance;
 	private double apertureLength = 0;
+	private UniformRectangleGrid cp = null;
 	private AdaptiveSuperSampler adaptiveSuperSampler = new AdaptiveSuperSampler();
+
+	/**
+	 * Pixel manager for supporting:
+	 * <ul>
+	 * <li>multi-threading</li>
+	 * <li>debug print of progress percentage in Console window/tab</li>
+	 * <ul>
+	 */
+	private PixelManager pixelManager;
+	private int threadNum = 0;
 
 	/**
 	 * finds the center of the view plane
@@ -238,8 +253,8 @@ public class Camera {
 	 * @return this object
 	 */
 	public Camera setApertureLength(double apertureLength) {
-		// important to align zero here, to avoid using DoF feature when not wanted
 		this.apertureLength = alignZero(apertureLength);
+		cp = null;
 		return this;
 	}
 
@@ -297,9 +312,32 @@ public class Camera {
 					"Set the Argument That Has Not Been Set");
 		int nY = imageWriter.getNY();
 		int nX = imageWriter.getNX();
-		for (int j = 0; j < nY; ++j)
-			for (int i = 0; i < nX; ++i)
-				castRay(nX, nY, i, j);
+		pixelManager = new PixelManager(nY, nX, 0);
+		if (threadNum == 0)
+			for (int i = 0; i < nY; ++i)
+				for (int j = 0; j < nX; ++j)
+					castRay(nX, nY, j, i);
+		else { // see further... option 2
+			int threadsCount = threadNum;
+			var threads = new LinkedList<Thread>(); // list of threads
+			while (threadsCount-- > 0) // add appropriate number of threads
+				threads.add(new Thread(() -> { // add a thread with its code
+					Pixel pixel; // current pixel(row,col)
+					// allocate pixel(row,col) in loop until there are no more pixels
+					while ((pixel = pixelManager.nextPixel()) != null)
+						// cast ray through pixel (and color it – inside castRay)
+						castRay(nX, nY, pixel.col(), pixel.row());
+				}));
+			// start all the threads
+			for (Thread thread : threads)
+				thread.start();
+			// wait until all the threads have finished
+			try {
+				for (Thread thread : threads)
+					thread.join();
+			} catch (InterruptedException ignore) {
+			}
+		}
 		return this;
 	}
 
@@ -345,17 +383,18 @@ public class Camera {
 
 	private void castRay(int nX, int nY, int j, int i) {
 		Ray mainRay = constructRay(nX, nY, j, i);
-		if (adaptiveSuperSampler.getMaxRecursion() != 0) {
-			imageWriter
-					.writePixel(j, i,
-							adaptiveSuperSampler.calcColor(
-									new AdaptiveRay(
-											new UniformRectangleGrid(position, vUp, vRight, apertureLength,
-													apertureLength),
-											mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir())), false),
-									rayTracer));
-		} else
+		if (adaptiveSuperSampler.getMaxRecursion() == 0) {
 			imageWriter.writePixel(j, i, rayTracer.traceRay(mainRay));
+			pixelManager.pixelDone();
+			return;
+		}
+		if (cp == null)
+			cp = new UniformRectangleGrid(position, vUp, vRight, apertureLength, apertureLength);
+		imageWriter.writePixel(j, i,
+				adaptiveSuperSampler.traceAdaptiveRay(
+						new AdaptiveRay(cp, mainRay.getPoint(focalDistance / vTo.dotProduct(mainRay.getDir())), false),
+						rayTracer));
+		pixelManager.pixelDone();
 	}
 
 	/**
@@ -386,6 +425,7 @@ public class Camera {
 	 */
 	public Camera rotate(double angle) {
 		vp = null;
+		cp = null;
 		double cosAngle = alignZero(Math.cos(angle * Math.PI / 180));
 		double sinAngle = 0;
 		Vector newVRight;
@@ -407,6 +447,26 @@ public class Camera {
 		vUp = vUp.scale(cosAngle).add(vRight.scale(sinAngle));
 		vRight = newVRight;
 
+		return this;
+	}
+
+	/**
+	 * getter for number of threads in use
+	 * 
+	 * @return the number of threads in use
+	 */
+	public int getThreadNum() {
+		return threadNum;
+	}
+
+	/**
+	 * setter for number of threads in use
+	 * 
+	 * @param threadNum the new number of threads in use
+	 * @return this object
+	 */
+	public Camera setThreadNum(int threadNum) {
+		this.threadNum = threadNum;
 		return this;
 	}
 

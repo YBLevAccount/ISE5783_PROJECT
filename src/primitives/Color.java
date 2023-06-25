@@ -141,4 +141,16 @@ public class Color {
 	public String toString() {
 		return "rgb:" + rgb;
 	}
+
+	/**
+	 * checks if this color is close to another color
+	 * 
+	 * @param rhs           the other color
+	 * @param maxDifference the maximum difference between the colors that steal
+	 *                      makes them close
+	 * @return true if they are close enough
+	 */
+	public boolean closeTo(Color rhs, double maxDifference) {
+		return rgb.subtract(rhs.rgb).lowerThan(maxDifference) && rhs.rgb.subtract(rgb).lowerThan(maxDifference);
+	}
 }

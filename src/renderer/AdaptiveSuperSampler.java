@@ -10,6 +10,7 @@ import primitives.*;
  *
  */
 public class AdaptiveSuperSampler {
+	private static final double maxDifference = 3d;
 	private int rayNum = 4; // default value
 	private int maxRecursion = 0;
 	private RayTracerBase rayTracer = null;
@@ -28,10 +29,10 @@ public class AdaptiveSuperSampler {
 	 * @param rayTracer   the ray tracer to calculate with
 	 * @return the calculated color
 	 */
-	public Color calcColor(AdaptiveRay adaptiveRay, RayTracerBase rayTracer) {
+	public Color traceAdaptiveRay(AdaptiveRay adaptiveRay, RayTracerBase rayTracer) {
 		Color baseColor = rayTracer.traceRay(adaptiveRay.getRay());
 		this.rayTracer = rayTracer;
-		return traceRay(adaptiveRay, baseColor, maxRecursion);
+		return calcColor(adaptiveRay, baseColor, maxRecursion);
 
 	}
 
@@ -43,13 +44,14 @@ public class AdaptiveSuperSampler {
 	 * @param recursionLevel the current level of recursion
 	 * @return the calculated color
 	 */
-	private Color traceRay(AdaptiveRay adaptiveRay, Color lastColor, int recursionLevel) {
+	private Color calcColor(AdaptiveRay adaptiveRay, Color lastColor, int recursionLevel) {
 		List<AdaptiveRay> secondaryRays = adaptiveRay.splitRay(rayNum);
 		Color totalColor = lastColor;
 		for (AdaptiveRay secondaryRay : secondaryRays) {
 			Color secondaryColor = rayTracer.traceRay(secondaryRay.getRay());
-			totalColor = totalColor.add((lastColor.equals(secondaryColor) || recursionLevel == 1) ? secondaryColor
-					: traceRay(secondaryRay, secondaryColor, recursionLevel - 1));
+			totalColor = totalColor
+					.add((lastColor.closeTo(secondaryColor, maxDifference) || recursionLevel == 1) ? secondaryColor
+							: calcColor(secondaryRay, secondaryColor, recursionLevel - 1));
 		}
 		return totalColor.scale(1d / (secondaryRays.size() + 1));
 	}
