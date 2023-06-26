@@ -74,36 +74,36 @@ class PixelManager {
 	 * @return true if next pixel is allocated, false if there are no more pixels
 	 */
 	Pixel nextPixel() {
-		synchronized (mutexNext) {
-			if (cRow == maxRows)
+		synchronized (mutexNext) { // wait until its this thread turn to use the PixelManager
+			if (cRow == maxRows) // already out of pixels
 				return null;
 
 			++cCol;
-			if (cCol < maxCols)
+			if (cCol < maxCols) // we stay in the same column
 				return new Pixel(cRow, cCol);
 
 			cCol = 0;
 			++cRow;
-			if (cRow < maxRows)
+			if (cRow < maxRows) // after update there are still pixels the calculate
 				return new Pixel(cRow, cCol);
 		}
-		return null;
+		return null; // after update all the pixels were calculated
 	}
 
 	/** Finish pixel processing by updating and printing of progress percentage */
 	void pixelDone() {
-		boolean flag = false;
-		int percentage = 0;
-		synchronized (mutexPixels) {
-			++pixels;
-			if (print) {
+		boolean flag = false; // if flag is true we will need to print again
+		int percentage = 0; // percent of pixels dune
+		synchronized (mutexPixels) { // wait until its this thread turn to use the PixelManager
+			++pixels; // update the pixels to do
+			if (print) { // if we print percent in the project, calculate it
 				percentage = (int) (1000l * pixels / totalPixels);
 				if (percentage - lastPrinted >= printInterval) {
 					lastPrinted = percentage;
 					flag = true;
 				}
 			}
-			if (flag)
+			if (flag) // if we reached new percent
 				System.out.printf(PRINT_FORMAT, percentage / 10d);
 		}
 	}
