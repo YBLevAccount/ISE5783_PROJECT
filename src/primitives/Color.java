@@ -146,7 +146,7 @@ public class Color {
 	 * checks if this color is close to another color
 	 * 
 	 * @param rhs           the other color
-	 * @param maxDifference the maximum difference between the colors that steal
+	 * @param maxDifference the maximum difference between the colors that still
 	 *                      makes them close
 	 * @return true if they are close enough
 	 */

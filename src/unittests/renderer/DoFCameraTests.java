@@ -152,7 +152,7 @@ class DoFCameraTests {
 	void testAll() {
 		setUp();
 
-		ImageWriter imageWriter = new ImageWriter("AllImageImporvements", 500, 500);
+		ImageWriter imageWriter = new ImageWriter("AllImageImprovements", 500, 500);
 		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
 		camera.setRayNum(16).setMaxRecursionLevel(2).setThreadNum(numThreads); // for debug only!!! for real thing use different number
 		camera.renderImage().writeToImage();

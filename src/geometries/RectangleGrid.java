@@ -13,23 +13,23 @@ public abstract class RectangleGrid implements TargetArea {
 	/**
 	 * center of the rectangle
 	 */
-	protected Point center;
+	protected final Point center;
 	/**
 	 * vector pointing up
 	 */
-	protected Vector vUp;
+	protected final Vector vUp;
 	/**
 	 * vector pointing down
 	 */
-	protected Vector vRight;
+	protected final Vector vRight;
 	/**
 	 * the width of the rectangle
 	 */
-	protected double width;
+	protected final double width;
 	/**
 	 * the height of the rectangle
 	 */
-	protected double height;
+	protected final double height;
 
 	/**
 	 * constructor for Grid
@@ -66,34 +66,12 @@ public abstract class RectangleGrid implements TargetArea {
 	}
 
 	/**
-	 * setter for the width
-	 * 
-	 * @param width the width to set
-	 * @return this object
-	 */
-	public RectangleGrid setWidth(double width) {
-		this.width = width;
-		return this;
-	}
-
-	/**
 	 * getter for the height
 	 * 
 	 * @return the height
 	 */
 	public double getHeight() {
 		return height;
-	}
-
-	/**
-	 * setter for the height
-	 * 
-	 * @param height the height to set
-	 * @return this object
-	 */
-	public RectangleGrid setHeight(double height) {
-		this.height = height;
-		return this;
 	}
 
 	/**
@@ -106,17 +84,6 @@ public abstract class RectangleGrid implements TargetArea {
 	}
 
 	/**
-	 * setter for the center
-	 * 
-	 * @param center the center to set
-	 * @return this object
-	 */
-	public RectangleGrid setCenter(Point center) {
-		this.center = center;
-		return this;
-	}
-
-	/**
 	 * getter for the vector vUp
 	 * 
 	 * @return the vector vUp
@@ -126,34 +93,12 @@ public abstract class RectangleGrid implements TargetArea {
 	}
 
 	/**
-	 * setter for the vector vUp
-	 * 
-	 * @param vUp the vector vUp to set
-	 * @return this object
-	 */
-	public RectangleGrid setVUp(Vector vUp) {
-		this.vUp = vUp;
-		return this;
-	}
-
-	/**
 	 * getter for the vector vRight
 	 * 
 	 * @return the vector vRight
 	 */
 	public Vector getVRight() {
 		return vUp;
-	}
-
-	/**
-	 * setter for the vector vRight
-	 * 
-	 * @param vRight the vector vRight to set
-	 * @return this object
-	 */
-	public RectangleGrid setVRight(Vector vRight) {
-		this.vRight = vRight;
-		return this;
 	}
 
 }

@@ -13,9 +13,9 @@ import primitives.*;
  *
  */
 public class AdaptiveRay {
-	private UniformRectangleGrid targetArea;
-	private Point position;
-	private boolean forward;
+	private final UniformRectangleGrid targetArea;
+	private final Point position;
+	private final boolean forward;
 
 	/**
 	 * constructor for AdaptiveRay
@@ -42,6 +42,11 @@ public class AdaptiveRay {
 		return (forward ? new Ray(position, direction) : new Ray(center, direction.scale(-1)));
 	}
 
+	/**
+	 * splits an adaptive ray into a list of adaptive rays
+	 * @param numSplits the number of adaptive rays to create
+	 * @return the list of adaptive rays
+	 */
 	public List<AdaptiveRay> splitRay(int numSplits) {
 		List<Point> points = targetArea.generateTargets(numSplits);
 		List<AdaptiveRay> adaptiveRays = new LinkedList<>();

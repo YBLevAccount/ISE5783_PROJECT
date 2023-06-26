@@ -53,7 +53,7 @@ public class AdaptiveSuperSampler {
 					.add((lastColor.closeTo(secondaryColor, maxDifference) || recursionLevel == 1) ? secondaryColor
 							: calcColor(secondaryRay, secondaryColor, recursionLevel - 1));
 		}
-		return totalColor.scale(1d / (secondaryRays.size() + 1));
+		return totalColor.reduce(secondaryRays.size() + 1);
 	}
 
 	/**
