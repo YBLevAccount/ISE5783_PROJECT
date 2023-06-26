@@ -1,4 +1,4 @@
-package unittests.renderer;
+package unittests.improvements;
 
 import static java.awt.Color.WHITE;
 

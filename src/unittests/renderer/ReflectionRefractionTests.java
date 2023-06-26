@@ -56,7 +56,16 @@ public class ReflectionRefractionTests {
 		scene.geometries.add( //
 				new Sphere(new Point(-950, -900, -1000), 400d).setEmission(new Color(0, 50, 100)) //
 						.setMaterial(
-								new Material().setKd(0.25).setKs(0.25).setShininess(20)));
+								new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(new Double3(0.5, 0, 0))),
+				new Sphere(new Point(-950, -900, -1000), 200d).setEmission(new Color(100, 50, 20)) //
+						.setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+				new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500), new Point(670, 670, 3000)) //
+						.setEmission(new Color(20, 20, 20)) //
+						.setMaterial(new Material().setKr(1)),
+				new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500),
+						new Point(-1500, -1500, -2000)) //
+						.setEmission(new Color(20, 20, 20)) //
+						.setMaterial(new Material().setKr(new Double3(0.5, 0, 0.4))));
 
 		scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point(-750, -750, -150), new Vector(-1, -1, -4)) //
 				.setKl(0.00001).setKq(0.000005));
