@@ -16,7 +16,7 @@ import scene.Scene;
  * @author Yonatan and Shulman
  *
  */
-class DoFCameraTests {
+class ImageImprovementTests {
 
 	private Camera camera;
 	private Scene scene;
@@ -114,10 +114,10 @@ class DoFCameraTests {
 	 * show regular camera on the same image
 	 */
 	@Test
-	void noDepthOfFieldTest() {
+	void noImprovementsTest() {
 		setUp();
 
-		ImageWriter imageWriter = new ImageWriter("WithoutDepthOfFild", 500, 500);
+		ImageWriter imageWriter = new ImageWriter("NoImprovementsImage", 500, 500);
 		camera.setImageWriter(imageWriter).renderImage().writeToImage();
 	}
 
@@ -125,10 +125,10 @@ class DoFCameraTests {
 	 * DoF with adaptive super sampling test
 	 */
 	@Test
-	void depthOfFieldWithAdaptiveSuperSamplingTest() {
+	void AdaptiveSuperSamplingTest() {
 		setUp();
 
-		ImageWriter imageWriter = new ImageWriter("WithDepthOfFildAndAdaptiveSuperSampling", 500, 500);
+		ImageWriter imageWriter = new ImageWriter("WithAdaptiveSuperSampling", 500, 500);
 		camera.setImageWriter(imageWriter).setApertureLength(20).setFocalDistance(500);
 		camera.setRayNum(16).setMaxRecursionLevel(2); // for debug only!!! for real thing use different number
 		camera.renderImage().writeToImage();
